@@ -3,8 +3,8 @@
 ## Group T0xG0y
 | Name             | Number    | E-Mail             |
 | ---------------- | --------- | ------------------ |
-| John Doe         | 201901010 | ...                |
-| Jane Doe         | 201901011 | ...                |
+| Duarte Marques         | 202204973 | up202204973@up.pt  |
+| Maria Vieira         | 202204802 | up202204802@up.pt   |
 
 ----
 
