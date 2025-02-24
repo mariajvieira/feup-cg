@@ -4,10 +4,9 @@
 
 ## TP 1 Notes
 
-(add your main observations/remarks about your experiments here, in a bulleted list, and remove this line. Some examples below)
-
-- In exercise 1 we observed X
-- In exercise 2 we had difficulties in Y
+### Main observations/remarks 
+- In the beggining of the exercises, we had some trouble understanding how to make the objects double-sided.
+- There were no big difficulties in general.
 
 #### Exercise 1 Screenshots
 
@@ -27,4 +26,8 @@
 
 - MyTriangleSmall: 
 
-![MyTriangle](screenshots/cg-t12g10-tp1-5.png)
+![MyTriangleSmall](screenshots/cg-t12g10-tp1-5.png)
+
+- MyTriangleBig: 
+
+![MyTriangleBig](screenshots/cg-t12g10-tp1-6.png)
