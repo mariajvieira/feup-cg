@@ -96,8 +96,8 @@ export class MyScene extends CGFscene {
     // ---- BEGIN Primitive drawing section
 
     //this.diamond.display();
-    this.triangle.display();
-    //this.parallelogram.display();
+    //this.triangle.display();
+    this.parallelogram.display();
 
 
     // ---- END Primitive drawing section

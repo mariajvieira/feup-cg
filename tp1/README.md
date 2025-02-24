@@ -1,6 +1,6 @@
 # CG 2024/2025
 
-## Group T0xG0y
+## Group T12G10
 
 ## TP 1 Notes
 
@@ -9,6 +9,16 @@
 - In exercise 1 we observed X
 - In exercise 2 we had difficulties in Y
 
-![Screenshot 1](screenshots/cg-t12g10-tp1-0.png)
+#### Exercise 1 Screenshots
 
-![Screenshot 2](screenshots/cg-t12g10-tp1-1.png)
+- MyDiamond: 
+
+![MyDiamond](screenshots/cg-t12g10-tp1-0.png)
+
+- MyTriangle: 
+
+![MyTriangle](screenshots/cg-t12g10-tp1-1.png)
+
+- MyParallelogram: 
+
+![MyParallelogram](screenshots/cg-t12g10-tp1-2.png)
