@@ -1,6 +1,6 @@
 # CG 2024/2025
 
-## Group T0xG0y
+## Group T12G10
 | Name             | Number    | E-Mail             |
 | ---------------- | --------- | ------------------ |
 | Duarte Marques         | 202204973 | up202204973@up.pt  |
