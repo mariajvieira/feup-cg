@@ -22,3 +22,9 @@
 - MyParallelogram: 
 
 ![MyParallelogram](screenshots/cg-t12g10-tp1-2.png)
+
+#### Exercise 2 Screenshots
+
+- MyTriangleSmall: 
+
+![MyTriangle](screenshots/cg-t12g10-tp1-5.png)
