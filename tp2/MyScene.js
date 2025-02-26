@@ -1,9 +1,4 @@
-import { CGFscene, CGFcamera, CGFaxis } from "../lib/CGF.js";
-import { MyDiamond } from "./MyDiamond.js";
-import { MyTriangle } from "./MyTriangle.js";
-import { MyParallelogram } from "./MyParallelogram.js";
-import { MyTriangleSmall } from "./MyTriangleSmall.js";
-import { MyTriangleBig } from "./MyTriangleBig.js";
+import { CGFscene} from "../lib/CGF.js";
 import { MyTangram } from "./MyTangram.js";
 
 /**
@@ -30,15 +25,6 @@ export class MyScene extends CGFscene {
 
     //Initialize scene objects
     this.axis = new CGFaxis(this);
-
-    this.orangeTriangle = new MyTriangleBig(this);
-    this.blueTriangle = new MyTriangleBig(this);
-    this.pinkTriangle = new MyTriangle(this);
-    this.redTriangle = new MyTriangleSmall(this);
-    this.yellowParallelogram = new MyParallelogram(this);
-    this.greendiamond = new MyDiamond(this);
-    this.purpleTriangle = new MyTriangleSmall(this);
-
     this.tangram = new MyTangram(this);
 
 
@@ -103,63 +89,7 @@ export class MyScene extends CGFscene {
     ];
 
     this.multMatrix(sca);
-
-    // orange triangle
-    this.pushMatrix();
-    this.translate(-1.4,1.4,0);
-    this.rotate(-3*Math.PI/4, 0,0,1);
-    this.setDiffuse(1, 0.5, 0, 1);
-    this.orangeTriangle.display();
-    this.popMatrix();
-
-    // blue triangle
-    this.pushMatrix();
-    this.translate(1.4,-0.5,0);
-    this.rotate(Math.PI/4, 0,0,1);
-    this.setDiffuse(0, 0.4, 1.0, 1);
-    this.blueTriangle.display();
-    this.popMatrix();
-
-    // pink triangle
-    this.pushMatrix();
-    this.translate(2.2,0.3,0);
-    this.rotate(Math.PI/2, 0,0,1);
-    this.setDiffuse(1, 0.5, 0.8, 1);
-    this.pinkTriangle.display();
-    this.popMatrix();
-
-    // red triangle
-    this.pushMatrix();
-    this.translate(3.5,1.6,0);
-    this.rotate(Math.PI/4, 0,0,1);
-    this.setDiffuse(1, 0, 0, 1);
-    this.redTriangle.display();
-    this.popMatrix();
-
-    // yellow parallelogram
-    this.pushMatrix();
-    this.translate(0.98,-0.92,0);
-    this.rotate(Math.PI/2, 0,0,1);
-    this.scale(-1,1,1);
-    this.setDiffuse(1, 1, 0, 1);
-    this.yellowParallelogram.display();
-    this.popMatrix();
-
-    // green diamond
-    this.pushMatrix();
-    this.translate(-1.8,2.3,0);
-    this.rotate(Math.PI/8, 0,0,1);
-    this.setDiffuse(0, 1, 0, 1);
-    this.greendiamond.display();
-    this.popMatrix();
-
-    // purple triangle
-    this.pushMatrix();
-    this.translate(-0.4,-4.3,0);
-    this.rotate(-3*Math.PI/4, 0,0,1);
-    this.setDiffuse(0.5, 0, 0.5, 1);
-    this.purpleTriangle.display();
-    this.popMatrix();
+    this.tangram.display();
 
   }
 }
