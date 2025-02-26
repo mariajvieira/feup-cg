@@ -5,7 +5,7 @@
 ## TP 2 Notes
 
 ### Main observations/remarks 
-- In the beggining of the exercises, we had some trouble understanding how to make the objects double-sided.
+- We had some trouble undestanding how the translation matrix worked for the diamond.
 - There were no big difficulties in general.
 
 #### Exercise 2 Screenshots
