@@ -99,15 +99,18 @@ export class MyScene extends CGFscene {
 
     this.multMatrix(sca);
 
+    this.pushMatrix();
+    this.translate(-1.4,1.4,0);
+   this.rotate(-3*Math.PI/4, 0,0,1)
+
     // ---- BEGIN Primitive drawing section
 
     //this.diamond.display();
     //this.triangle.display();
     //this.parallelogram.display();
     //this.triangleSmall.display();
-    //this.triangleBig.display();
-    this.tangram.display();
-
+    this.triangleBig.display();
+    //this.tangram.display();
 
     // ---- END Primitive drawing section
   }
