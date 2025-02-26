@@ -34,6 +34,7 @@ export class MyScene extends CGFscene {
     this.orangeTriangle = new MyTriangleBig(this);
     this.blueTriangle = new MyTriangleBig(this);
     this.pinkTriangle = new MyTriangle(this);
+    this.redTriangle = new MyTriangleSmall(this);
 
     this.diamond = new MyDiamond(this);
     this.triangle = new MyTriangle(this);
@@ -124,6 +125,17 @@ export class MyScene extends CGFscene {
     this.rotate(Math.PI/2, 0,0,1);
     this.pinkTriangle.display();
     this.popMatrix();
+
+    // red triangle
+    this.pushMatrix();
+    this.translate(3.5,1.6,0);
+    this.rotate(Math.PI/4, 0,0,1);
+    this.redTriangle.display();
+    this.popMatrix();
+
+
+
+
     // ---- BEGIN Primitive drawing section
 
     //this.diamond.display();
