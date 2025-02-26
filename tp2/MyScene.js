@@ -91,15 +91,17 @@ export class MyScene extends CGFscene {
     ];
 
     this.multMatrix(sca);
-    this.tangram.display();
-
+    
     this.pushMatrix();
+    this.rotate(-Math.PI/2,1,0,0);
+    this.tangram.display();
     this.scale(11,11,2)
     this.translate(0,0,-0.51);
     this.setDiffuse(0.7, 0.7, 1, 0.7);
+  
     this.unitCube.display();
-    this.popMatrix();
     
+    this.popMatrix();
 
   }
 }
