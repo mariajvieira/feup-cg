@@ -104,8 +104,7 @@ export class MyScene extends CGFscene {
     //this.parallelogram.display();
     //this.triangleSmall.display();
     this.triangleBig.display();
-
-
+  
     // ---- END Primitive drawing section
   }
 }
