@@ -18,11 +18,27 @@ export class MyTangram extends CGFobject {
         this.pinkTriangle = new MyTriangle(this.scene);
         this.redTriangle = new MyTriangleSmall(this.scene);
         this.yellowParallelogram = new MyParallelogram(this.scene);
-        this.greendiamond = new MyDiamond(this.scene);
+        this.greenDiamond = new MyDiamond(this.scene);
         this.purpleTriangle = new MyTriangleSmall(this.scene);
     }
     
     display() {
+
+        // green diamond
+        this.scene.pushMatrix();
+        let translationMatrix =
+        [
+            1, 0, 0, 0,
+            0, 1, 0, 0,
+            0, 0, 1, 0,
+            -1.8, 2.3, 0, 1
+        ];
+        this.scene.multMatrix(translationMatrix);
+        this.scene.rotate(Math.PI/8, 0,0,1);
+        this.scene.setDiffuse(0, 1, 0, 1);
+        this.greenDiamond.display();
+        this.scene.popMatrix();
+
         // orange triangle
         this.scene.pushMatrix();
         this.scene.translate(-1.4,1.4,0);
@@ -62,14 +78,6 @@ export class MyTangram extends CGFobject {
         this.scene.scale(-1,1,1);
         this.scene.setDiffuse(1, 1, 0, 1);
         this.yellowParallelogram.display();
-        this.scene.popMatrix();
-
-        // green diamond
-        this.scene.pushMatrix();
-        this.scene.translate(-1.8,2.3,0);
-        this.scene.rotate(Math.PI/8, 0,0,1);
-        this.scene.setDiffuse(0, 1, 0, 1);
-        this.greendiamond.display();
         this.scene.popMatrix();
 
         // purple triangle
