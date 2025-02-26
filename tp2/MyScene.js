@@ -93,6 +93,7 @@ export class MyScene extends CGFscene {
     this.multMatrix(sca);
     
     this.pushMatrix();
+    this.translate(5.5, 0, 5.5);
     this.rotate(-Math.PI/2,1,0,0);
     this.tangram.display();
     this.scale(11,11,2)
