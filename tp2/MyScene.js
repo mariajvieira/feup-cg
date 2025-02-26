@@ -108,6 +108,7 @@ export class MyScene extends CGFscene {
     this.pushMatrix();
     this.translate(-1.4,1.4,0);
     this.rotate(-3*Math.PI/4, 0,0,1);
+    this.setDiffuse(1, 0.5, 0, 1);
     this.orangeTriangle.display();
     this.popMatrix();
 
@@ -115,6 +116,7 @@ export class MyScene extends CGFscene {
     this.pushMatrix();
     this.translate(1.4,-0.5,0);
     this.rotate(Math.PI/4, 0,0,1);
+    this.setDiffuse(0, 0.4, 1.0, 1);
     this.blueTriangle.display();
     this.popMatrix();
 
@@ -122,6 +124,7 @@ export class MyScene extends CGFscene {
     this.pushMatrix();
     this.translate(2.2,0.3,0);
     this.rotate(Math.PI/2, 0,0,1);
+    this.setDiffuse(1, 0.5, 0.8, 1);
     this.pinkTriangle.display();
     this.popMatrix();
 
@@ -129,6 +132,7 @@ export class MyScene extends CGFscene {
     this.pushMatrix();
     this.translate(3.5,1.6,0);
     this.rotate(Math.PI/4, 0,0,1);
+    this.setDiffuse(1, 0, 0, 1);
     this.redTriangle.display();
     this.popMatrix();
 
@@ -137,6 +141,7 @@ export class MyScene extends CGFscene {
     this.translate(0.98,-0.92,0);
     this.rotate(Math.PI/2, 0,0,1);
     this.scale(-1,1,1);
+    this.setDiffuse(1, 1, 0, 1);
     this.yellowParallelogram.display();
     this.popMatrix();
 
@@ -144,6 +149,7 @@ export class MyScene extends CGFscene {
     this.pushMatrix();
     this.translate(-1.8,2.3,0);
     this.rotate(Math.PI/8, 0,0,1);
+    this.setDiffuse(0, 1, 0, 1);
     this.greendiamond.display();
     this.popMatrix();
 
@@ -151,6 +157,7 @@ export class MyScene extends CGFscene {
     this.pushMatrix();
     this.translate(-0.4,-4.3,0);
     this.rotate(-3*Math.PI/4, 0,0,1);
+    this.setDiffuse(0.5, 0, 0.5, 1);
     this.purpleTriangle.display();
     this.popMatrix();
 
