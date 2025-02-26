@@ -18,8 +18,8 @@
 
 - Tangram with the base:
 
-![MyUnitCube](screenshots/cg-t12g10-tp2-2.png)
+![MyUnitCube](screenshots/cg-t12--g10-tp2-2.png)
 
 - Tangram with the base - parallel to the XZ plane:
 
-![MyUnitCube](screenshots/cg-t12g10-tp2-3.png)
+![MyUnitCube](screenshots/cg-t12-g10-tp2-3.png)
