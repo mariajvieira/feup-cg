@@ -36,8 +36,8 @@ export class MyScene extends CGFscene {
     this.pinkTriangle = new MyTriangle(this);
     this.redTriangle = new MyTriangleSmall(this);
     this.yellowParallelogram = new MyParallelogram(this);
+    this.greendiamond = new MyDiamond(this);
 
-    this.diamond = new MyDiamond(this);
     this.tangram = new MyTangram(this);
 
 
@@ -139,18 +139,12 @@ export class MyScene extends CGFscene {
     this.yellowParallelogram.display();
     this.popMatrix();
 
+    // green diamond
+    this.pushMatrix();
+    this.translate(-1.8,2.3,0);
+    this.rotate(Math.PI/8, 0,0,1);
+    this.greendiamond.display();
+    this.popMatrix();
 
-
-
-    // ---- BEGIN Primitive drawing section
-
-    //this.diamond.display();
-    //this.triangle.display();
-    //this.parallelogram.display();
-    //this.triangleSmall.display();
-    
-    //this.tangram.display();
-
-    // ---- END Primitive drawing section
   }
 }
