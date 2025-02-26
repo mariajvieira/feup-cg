@@ -95,7 +95,7 @@ export class MyScene extends CGFscene {
     ];
 
     this.multMatrix(sca);
-    /*
+    
     this.pushMatrix();
     this.translate(5.5, 0, 5.5);
     this.rotate(-Math.PI/2,1,0,0);
@@ -103,14 +103,14 @@ export class MyScene extends CGFscene {
     this.scale(11,11,2)
     this.translate(0,0,-0.51);
     this.setDiffuse(0.7, 0.7, 1, 0.7);
-  
-    this.unitCube.display();
+    this.unitcubequad.display();
+    //this.unitCube.display();
     
     this.popMatrix();
-    */
+    
 
     //this.quad.display();
-    this.unitcubequad.display();
+
 
 
 

@@ -10,7 +10,7 @@
 
 #### Exercise 2 Screenshots
 
-- MyTangram: 
+- Tangram: 
 
 ![MyTangram](screenshots/cg-t12-g10-tp2-1.png)
 
@@ -23,3 +23,14 @@
 - Tangram with the base - parallel to the XZ plane:
 
 ![MyUnitCube](screenshots/cg-t12-g10-tp2-3.png)
+
+
+#### Exercise 4 Screenshots
+
+- Cube composed of planes:
+
+![MyUnitCubeQuad](screenshots/cg-t12-g10-tp2-4.png)
+
+- Cube with the tangram :
+
+![MyUnitCubeQuad transformed](screenshots/cg-t12-g10-tp2-5.png)

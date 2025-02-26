@@ -48,7 +48,6 @@ export class MyUnitCubeQuad extends CGFobject {
         this.quad.display();
         this.scene.popMatrix();
 
-        
 
     }
 }
