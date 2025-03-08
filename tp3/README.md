@@ -14,6 +14,10 @@
 
 ![Wood MyUnitCube](screenshots/cg-t12-g10-tp3-1.png)
 
+- Tangram with the custom material diamond and  different materials for the other parts:
+
+![Tangram with materials](screenshots/cg-t12-g10-tp3-2.png)
+
 #### Exercise 2 Screenshots
 
 #### Exercise 3 Screenshots

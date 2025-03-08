@@ -26,40 +26,48 @@ export class MyTangram extends CGFobject {
 
     initMaterials() {  
         this.materialOrange = new CGFappearance(this.scene);
+        this.materialOrange.setAmbient(0.2, 0.1, 0.0, 1.0);
         this.materialOrange.setDiffuse(1, 0.5, 0, 1);
         this.materialOrange.setSpecular(1, 1, 1, 1);
-        this.materialOrange.setShininess(100);
-
+        this.materialOrange.setShininess(10.0);
+    
         this.materialBlue = new CGFappearance(this.scene);
+        this.materialBlue.setAmbient(0.0, 0.2, 0.3, 1.0);
         this.materialBlue.setDiffuse(0, 0.4, 1.0, 1);
         this.materialBlue.setSpecular(1, 1, 1, 1);
-        this.materialBlue.setShininess(100);
-
+        this.materialBlue.setShininess(10.0);
+    
         this.materialPink = new CGFappearance(this.scene);
+        this.materialPink.setAmbient(0.2, 0.1, 0.3, 1.0);
         this.materialPink.setDiffuse(1, 0.5, 0.8, 1);
         this.materialPink.setSpecular(1, 1, 1, 1);
-        this.materialPink.setShininess(100);
-
+        this.materialPink.setShininess(10.0);
+    
         this.materialRed = new CGFappearance(this.scene);
+        this.materialRed.setAmbient(0.2, 0.0, 0.0, 1.0);
         this.materialRed.setDiffuse(1, 0, 0, 1);
         this.materialRed.setSpecular(1, 1, 1, 1);
-        this.materialRed.setShininess(100);
-
+        this.materialRed.setShininess(10.0);
+    
         this.materialYellow = new CGFappearance(this.scene);
+        this.materialYellow.setAmbient(0.2, 0.2, 0.0, 1.0);
         this.materialYellow.setDiffuse(1, 1, 0, 1);
         this.materialYellow.setSpecular(1, 1, 1, 1);
-        this.materialYellow.setShininess(100);
-
+        this.materialYellow.setShininess(10.0);
+    
         this.materialGreen = new CGFappearance(this.scene);
+        this.materialGreen.setAmbient(0.0, 0.2, 0.0, 1.0);
         this.materialGreen.setDiffuse(0, 1, 0, 1);
         this.materialGreen.setSpecular(1, 1, 1, 1);
-        this.materialGreen.setShininess(100);
-
+        this.materialGreen.setShininess(10.0);
+    
         this.materialPurple = new CGFappearance(this.scene);
+        this.materialPurple.setAmbient(0.2, 0.0, 0.2, 1.0);
         this.materialPurple.setDiffuse(0.5, 0, 0.5, 1);
         this.materialPurple.setSpecular(1, 1, 1, 1);
-        this.materialPurple.setShininess(100);
+        this.materialPurple.setShininess(10.0);
     }
+    
     
     display() {
 
@@ -73,7 +81,7 @@ export class MyTangram extends CGFobject {
         ];
         this.scene.multMatrix(translationMatrix);
         this.scene.rotate(Math.PI/8, 0,0,1);
-        this.materialGreen.apply();
+        this.scene.materials[4].apply();
         this.greenDiamond.display();
         this.scene.popMatrix();
 
