@@ -108,7 +108,6 @@ export class MyScene extends CGFscene {
     
     this.popMatrix();
     
-
     //this.quad.display();
 
 
