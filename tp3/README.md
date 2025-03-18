@@ -20,4 +20,8 @@
 
 #### Exercise 2 Screenshots
 
+- Prism with a variable number of "sides" and "floors"
+
+![Prism](screenshots/cg-t12-g10-tp3-3.png)
+
 #### Exercise 3 Screenshots
