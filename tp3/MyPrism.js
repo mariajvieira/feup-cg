@@ -1,51 +1,60 @@
-import {CGFobject} from '../lib/CGF.js';
-/**
- * MyPrism
- * @constructor
- * @param scene - Reference to MyScene object
- */
+import { CGFobject } from '../lib/CGF.js';
+
 export class MyPrism extends CGFobject {
     constructor(scene, slices, stacks) {
         super(scene);
-
         this.slices = slices;
         this.stacks = stacks;
-
         this.initBuffers();
     }
-
     initBuffers() {
-        this.vertices = [
-            -0.5, 0.5, 0,	//0
-            0.5, 0.5, 0,	//1
-            0.5, -0.5, 0,	//2
-            -0.5, -0.5, 0	//3
-        ];
+        this.vertices = [];
+        this.indices = [];
+        this.normals = [];
 
-        //Counter-clockwise reference of vertices
-        this.indices = [
-            0, 3, 2,
-            0, 2, 1,
-            2, 3, 0,
-            1, 2, 0
-        ];
+        let angle = (2 * Math.PI) / this.slices;
+        let stackHeight = 1 / this.stacks;
 
-        this.normals = [
+        for (let stack = 0; stack <= this.stacks; stack++) {
+            let z = stack * stackHeight;
 
-        ];
+            for (let i = 0; i < this.slices; i++) {
+                let slice = i * angle;
+                let nextslice = (i + 1) * angle;
 
-        let slice_size = 2* Math.PI / this.slices;
+                let x1 = Math.cos(slice);
+                let y1 = Math.sin(slice);
+                let x2 = Math.cos(nextslice);
+                let y2 = Math.sin(nextslice);
 
-        for (let i=0; i<this.slices; i++) {
+                this.vertices.push(x1, y1, z);
+                this.vertices.push(x2, y2, z);
 
-            
+                let normalX = Math.cos(slice + angle / 2);
+                let normalY = Math.sin(slice + angle / 2);
+
+                this.normals.push(normalX, normalY, 0);
+                this.normals.push(normalX, normalY, 0);
+            }
         }
 
-        //The defined indices (and corresponding vertices)
-        //will be read in groups of three to draw triangles
-        this.primitiveType = this.scene.gl.TRIANGLES;
+        for (let stack = 0; stack < this.stacks; stack++) {
+            for (let i = 0; i < this.slices; i++) {
+                let current = stack * this.slices * 2 + i * 2;
+                let next = current + 2;
+                let upper = current + this.slices * 2;
+                let upperNext = upper + 2;
 
+                if (i === this.slices - 1) {
+                    next -= this.slices * 2;
+                    upperNext -= this.slices * 2;
+                }
+
+                this.indices.push(current, next, upper);
+                this.indices.push(next, upperNext, upper);
+            }
+        }
+        this.primitiveType = this.scene.gl.TRIANGLES;
         this.initGLBuffers();
     }
 }
-
