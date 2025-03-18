@@ -25,3 +25,5 @@
 ![Prism](screenshots/cg-t12-g10-tp3-3.png)
 
 #### Exercise 3 Screenshots
+
+![Cylinder](screenshots/cg-t12-g10-tp3-4.png)
