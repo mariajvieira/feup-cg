@@ -42,16 +42,18 @@ export class MyScene extends CGFscene {
         this.texture1 = new CGFtexture(this, 'images/board.jpg');
         this.texture2 = new CGFtexture(this, 'images/floor.png');
         this.texture3 = new CGFtexture(this, 'images/window.jpg');
+        this.texture4 = new CGFtexture(this, 'images/tangram.png');
         //-------
 
         //-------Objects connected to MyInterface
         this.displayAxis = true;
+        this.displayQuad = true;
         this.scaleFactor = 5;
         this.selectedTexture = -1;        
         this.wrapS = 0;
         this.wrapT = 0;
 
-        this.textures = [this.texture1, this.texture2, this.texture3];
+        this.textures = [this.texture1, this.texture2, this.texture3, this.texture4];
         this.texCoords = [0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 0.0];
         this.wrappingMethods = ['REPEAT', 'CLAMP_TO_EDGE', 'MIRRORED_REPEAT'];
 
@@ -124,7 +126,10 @@ export class MyScene extends CGFscene {
         
         // this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MAG_FILTER, this.gl.NEAREST);
 
-        this.quad.display();
+        if (this.displayQuad) {
+            this.quad.display();
+        }
+
 
         // ---- END Primitive drawing section
     }
