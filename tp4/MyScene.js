@@ -1,6 +1,7 @@
 import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFtexture } from "../lib/CGF.js";
 import { MyQuad } from "./MyQuad.js";
 import { MyTangram } from "./MyTangram.js";
+import { MyUnitCubeQuad } from "./MyUnitCubeQuad.js";
 
 /**
  * MyScene
@@ -28,7 +29,8 @@ export class MyScene extends CGFscene {
         //Initialize scene objects
         this.axis = new CGFaxis(this);
         this.quad = new MyQuad(this);
-        this.tangram = new MyTangram(this);  // Create a tangram instance
+        this.tangram = new MyTangram(this);
+        this.cube = new MyUnitCubeQuad(this, this.texture_top, this.texture_side, this.texture_side, this.texture_side, this.texture_side, this.texture_bottom);
 
 
         //------ Applied Material
@@ -46,12 +48,16 @@ export class MyScene extends CGFscene {
         this.texture2 = new CGFtexture(this, 'images/floor.png');
         this.texture3 = new CGFtexture(this, 'images/window.jpg');
         this.texture4 = new CGFtexture(this, 'images/tangram.png');
-        //-------
+        this.texture_top = new CGFtexture(this, 'images/mineTop.png');
+        this.texture_side = new CGFtexture(this, 'images/mineSide.png');
+        this.texture_bottom = new CGFtexture(this, 'images/mineBottom.png');
+        // //-------
 
         //-------Objects connected to MyInterface
         this.displayAxis = true;
         this.displayQuad = true;
-        this.displayTangram = true;
+        this.displayTangram = false;
+        this.displayCube = true;
         this.scaleFactor = 5;
         this.selectedTexture = -1;        
         this.wrapS = 0;
@@ -135,7 +141,10 @@ export class MyScene extends CGFscene {
             this.quad.display();
         }
         if (this.displayTangram) {
-            this.tangram.display();  // Display the tangram
+            this.tangram.display();  
+        }
+        if (this.displayCube) {
+            this.cube.display(); 
         }
 
         // ---- END Primitive drawing section
