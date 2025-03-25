@@ -12,3 +12,9 @@
 
 ![Tangram](screenshots/cg-t12-g10-tp4-1.png)
 
+#### Exercise 2 Screenshots
+
+- Cube with textures: 
+
+![Cube](screenshots/cg-t12-g10-tp4-2.png)
+
