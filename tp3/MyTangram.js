@@ -20,7 +20,7 @@ export class MyTangram extends CGFobject {
         this.yellowParallelogram = new MyParallelogram(this.scene);
         this.greenDiamond = new MyDiamond(this.scene);
         this.purpleTriangle = new MyTriangleSmall(this.scene);
-        
+
         this.initMaterials();
     }
 
@@ -70,63 +70,60 @@ export class MyTangram extends CGFobject {
     
     
     display() {
-
         this.scene.pushMatrix();
-        let translationMatrix =
-        [
+        let translationMatrix = [
             1, 0, 0, 0,
             0, 1, 0, 0,
             0, 0, 1, 0,
             -1.8, 2.3, 0, 1
         ];
         this.scene.multMatrix(translationMatrix);
-        this.scene.rotate(Math.PI/8, 0,0,1);
-        this.scene.materials[4].apply();
+        this.scene.rotate(Math.PI / 8, 0, 0, 1);
+        this.materialGreen.apply();
         this.greenDiamond.display();
         this.scene.popMatrix();
-
+    
         this.scene.pushMatrix();
-        this.scene.translate(-1.4,1.4,0);
-        this.scene.rotate(-3*Math.PI/4, 0,0,1);
+        this.scene.translate(-1.4, 1.4, 0);
+        this.scene.rotate(-3 * Math.PI / 4, 0, 0, 1);
         this.materialOrange.apply();
         this.orangeTriangle.display();
         this.scene.popMatrix();
-
+    
         this.scene.pushMatrix();
-        this.scene.translate(1.4,-0.5,0);
-        this.scene.rotate(Math.PI/4, 0,0,1);
+        this.scene.translate(1.4, -0.5, 0);
+        this.scene.rotate(Math.PI / 4, 0, 0, 1);
         this.materialBlue.apply();
         this.blueTriangle.display();
         this.scene.popMatrix();
-
+    
         this.scene.pushMatrix();
-        this.scene.translate(2.2,0.3,0);
-        this.scene.rotate(Math.PI/2, 0,0,1);
+        this.scene.translate(2.2, 0.3, 0);
+        this.scene.rotate(Math.PI / 2, 0, 0, 1);
         this.materialPink.apply();
         this.pinkTriangle.display();
         this.scene.popMatrix();
-
+    
         this.scene.pushMatrix();
-        this.scene.translate(3.5,1.6,0);
-        this.scene.rotate(Math.PI/4, 0,0,1);
+        this.scene.translate(3.5, 1.6, 0);
+        this.scene.rotate(Math.PI / 4, 0, 0, 1);
         this.materialRed.apply();
         this.redTriangle.display();
         this.scene.popMatrix();
-
+    
         this.scene.pushMatrix();
-        this.scene.translate(0.98,-0.92,0);
-        this.scene.rotate(Math.PI/2, 0,0,1);
-        this.scene.scale(-1,1,1);
+        this.scene.translate(0.98, -0.92, 0);
+        this.scene.rotate(Math.PI / 2, 0, 0, 1);
+        this.scene.scale(-1, 1, 1);
         this.materialYellow.apply();
         this.yellowParallelogram.display();
         this.scene.popMatrix();
-
+    
         this.scene.pushMatrix();
-        this.scene.translate(-0.4,-4.3,0);
-        this.scene.rotate(-3*Math.PI/4, 0,0,1);
+        this.scene.translate(-0.4, -4.3, 0);
+        this.scene.rotate(-3 * Math.PI / 4, 0, 0, 1);
         this.materialPurple.apply();
         this.purpleTriangle.display();
         this.scene.popMatrix();
     }
-    
 }

@@ -24,10 +24,14 @@ export class MyTangram extends CGFobject {
         this.initMaterials();
     }
     initMaterials() {
-
+        // Create the diamond texture material
         this.diamondMaterial = new CGFappearance(this.scene);
- 
+        this.diamondMaterial.setAmbient(0.1, 0.1, 0.1, 1);
+        this.diamondMaterial.setDiffuse(0.9, 0.9, 0.9, 1);
+        this.diamondMaterial.setSpecular(0.1, 0.1, 0.1, 1);
+        this.diamondMaterial.setShininess(10.0);
         
+        // Load and apply the tangram texture
         this.tangramTexture = new CGFtexture(this.scene, 'images/tangram.png');
         this.diamondMaterial.setTexture(this.tangramTexture);
         this.diamondMaterial.setTextureWrap('REPEAT', 'REPEAT');
@@ -46,6 +50,7 @@ export class MyTangram extends CGFobject {
         this.scene.multMatrix(translationMatrix);
         this.scene.rotate(Math.PI/8, 0,0,1);
         
+        // Apply the diamond material with texture instead of just setting diffuse color
         this.diamondMaterial.apply();
         this.greenDiamond.display();
         this.scene.popMatrix();
