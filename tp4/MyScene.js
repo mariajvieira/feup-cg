@@ -30,8 +30,6 @@ export class MyScene extends CGFscene {
         this.axis = new CGFaxis(this);
         this.quad = new MyQuad(this);
         this.tangram = new MyTangram(this);
-        this.cube = new MyUnitCubeQuad(this, this.texture_top, this.texture_side, this.texture_side, this.texture_side, this.texture_side, this.texture_bottom);
-
 
         //------ Applied Material
         this.quadMaterial = new CGFappearance(this);
@@ -52,6 +50,9 @@ export class MyScene extends CGFscene {
         this.texture_side = new CGFtexture(this, 'images/mineSide.png');
         this.texture_bottom = new CGFtexture(this, 'images/mineBottom.png');
         // //-------
+
+        this.cube = new MyUnitCubeQuad(this, this.texture_top, this.texture_side, this.texture_side, this.texture_side, this.texture_side, this.texture_bottom);
+
 
         //-------Objects connected to MyInterface
         this.displayAxis = true;
