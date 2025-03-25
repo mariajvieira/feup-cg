@@ -5,6 +5,8 @@
 ## TP 4 Notes
 
 ### Main observations/remarks 
+- At first, it took us a while to figure out how the textures coordinates worked.
+- Overall, we didn´t have many difficuties in this week's exercises.
 
 #### Exercise 1 Screenshots
 
