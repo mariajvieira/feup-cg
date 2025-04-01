@@ -17,7 +17,7 @@ export class MyUnitCubeQuad extends CGFobject {
         this.texture_left = texture_left;
         this.texture_bottom = texture_bottom;
     }
-
+    
     display() {
         // Frente
         this.scene.pushMatrix();
