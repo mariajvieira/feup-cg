@@ -18,6 +18,8 @@ void main() {
 	
 	vTextureCoord = aTextureCoord;
 
+    offset.x = sin(timeFactor * 2.0) * normScale;
+	
 	if (texture2D(uSampler2, vec2(0.0,0.1)+vTextureCoord).b > 0.5)
 		offset=aVertexNormal*normScale*0.1*sin(timeFactor);
 

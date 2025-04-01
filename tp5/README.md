@@ -14,14 +14,11 @@
 
 ![Teapot](screenshots/cg-t12-g10-tp5-1.png)
 
+- Teapot with GrayScale:
 
-
-
+![Teapot](screenshots/cg-t12-g10-tp5-2.png)
 
 
 #### Exercise 2 Screenshots
 
-- Cube with textures: 
-
-![Cube](screenshots/cg-t12-g10-tp5-2.png)
 
