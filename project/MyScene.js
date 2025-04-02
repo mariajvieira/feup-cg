@@ -1,5 +1,6 @@
 import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFtexture } from "../lib/CGF.js";
 import { MyPlane } from "./MyPlane.js";
+import { MySphere } from "./MySphere.js";
 
 /**
  * MyScene
@@ -30,6 +31,7 @@ export class MyScene extends CGFscene {
     //Initialize scene objects
     this.axis = new CGFaxis(this, 20, 1);
     this.plane = new MyPlane(this, 64);
+    this.sphere = new MySphere(this, 16, 8);
 
     // Plane appearance
     this.planeAppearance = new CGFappearance(this);
@@ -50,6 +52,9 @@ export class MyScene extends CGFscene {
 
     this.textures = [this.texture1, this.texture2];
     this.textureIds = { 'Grass': 0, 'Earth': 1}
+
+    this.selectedObject = 0;
+    this.objectIDs = { 'Plane': 0, 'Sphere': 1 };
  
  
   }
@@ -112,19 +117,28 @@ export class MyScene extends CGFscene {
     // Apply transformations corresponding to the camera position relative to the origin
     this.applyViewMatrix();
 
-    // Draw axis
-    if (this.displayAxis) this.axis.display();
 
-
-  
-    this.setDefaultAppearance();
+    
+    this.planeAppearance.setTexture(this.textures[this.selectedTexture]);
+    this.planeAppearance.apply();
 
     this.scale(400, 1, 400);
     this.rotate(-Math.PI / 2, 1, 0, 0);
 
-    this.planeAppearance.setTexture(this.textures[this.selectedTexture]);
-    this.planeAppearance.apply();
+    // Draw axis
+    if (this.displayAxis) this.axis.display();
 
-    this.plane.display();
+    if (this.selectedObject == 0) {
+      this.plane.display();
+    } else {
+      this.sphere.display();
+    }
+  
+    this.setDefaultAppearance();
+
+
+
+
+
   }
 }
