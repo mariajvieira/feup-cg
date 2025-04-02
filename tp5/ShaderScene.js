@@ -100,8 +100,8 @@ export class ShaderScene extends CGFscene {
 		this.testShaders[5].setUniformsValues({ uSampler2: 1 });
 		this.testShaders[6].setUniformsValues({ uSampler2: 1 });
 		this.testShaders[6].setUniformsValues({ timeFactor: 0 });
-		// Adicione após as configurações existentes dos outros shaders
-this.testShaders[11].setUniformsValues({ uSampler2: 1, timeFactor: 0 });	
+		this.testShaders[9].setUniformsValues({ timeFactor: 0 });
+		this.testShaders[11].setUniformsValues({ uSampler2: 1, timeFactor: 0 });	
 
 
 		// Shaders interface variables
@@ -236,12 +236,12 @@ if (this.selectedExampleShader == 6 || this.selectedExampleShader == 11) {
 		// bind additional texture to texture unit 1
 		this.texture2.bind(1);
 		// No método display(), antes de desenhar os objetos
-if (this.selectedExampleShader == 11) { // Water shader
-    // Bind a textura da água (unit 0)
-    this.waterTex.bind(0);
-    // Bind o mapa de água (unit 1)
-    this.waterMap.bind(1);
-}
+		if (this.selectedExampleShader == 11) { // Water shader
+			// Bind a textura da água (unit 0)
+			this.waterTex.bind(0);
+			// Bind o mapa de água (unit 1)
+			this.waterMap.bind(1);
+		}
 		if (this.selectedObject==0) {
 			// teapot (scaled and rotated to conform to our axis)
 
