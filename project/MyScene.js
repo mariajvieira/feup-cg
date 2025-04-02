@@ -1,4 +1,4 @@
-import { CGFscene, CGFcamera, CGFaxis } from "../lib/CGF.js";
+import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFtexture } from "../lib/CGF.js";
 import { MyPlane } from "./MyPlane.js";
 
 /**
@@ -30,6 +30,28 @@ export class MyScene extends CGFscene {
     //Initialize scene objects
     this.axis = new CGFaxis(this, 20, 1);
     this.plane = new MyPlane(this, 64);
+
+    // Plane appearance
+    this.planeAppearance = new CGFappearance(this);
+    this.planeAppearance.setAmbient(0.3, 0.3, 0.3, 1);
+    this.planeAppearance.setDiffuse(0.7, 0.7, 0.7, 1);
+    this.planeAppearance.setSpecular(0.0, 0.0, 0.0, 1);
+    this.planeAppearance.setShininess(10);
+
+    // Textures
+    this.texture1 = new CGFtexture(this, 'images/grass.jpg');
+    this.texture2 = new CGFtexture(this, 'images/earth.jpg');
+ 
+
+    this.displayAxis = true;
+    this.displayPlane = true;
+    this.scaleFactor = 5;
+    this.selectedTexture = 0;
+
+    this.textures = [this.texture1, this.texture2];
+    this.textureIds = { 'Grass': 0, 'Earth': 1}
+ 
+ 
   }
   initLights() {
     this.lights[0].setPosition(200, 200, 200, 1);
@@ -46,6 +68,11 @@ export class MyScene extends CGFscene {
       vec3.fromValues(0, 0, 0)
     );
   }
+
+  updateAppliedTexture() {
+     this.setTexture(this.textures[this.selectedTexture]);
+  }
+
   checkKeys() {
     var text = "Keys pressed: ";
     var keysPressed = false;
@@ -86,12 +113,18 @@ export class MyScene extends CGFscene {
     this.applyViewMatrix();
 
     // Draw axis
-    this.axis.display();
+    if (this.displayAxis) this.axis.display();
 
+
+  
     this.setDefaultAppearance();
 
     this.scale(400, 1, 400);
     this.rotate(-Math.PI / 2, 1, 0, 0);
+
+    this.planeAppearance.setTexture(this.textures[this.selectedTexture]);
+    this.planeAppearance.apply();
+
     this.plane.display();
   }
 }
