@@ -47,7 +47,7 @@ export class MyScene extends CGFscene {
 
     this.displayAxis = true;
     this.displayPlane = true;
-    this.scaleFactor = 5;
+    this.scaleFactor = 1;
     this.selectedTexture = 0;
 
     this.textures = [this.texture1, this.texture2];
@@ -117,16 +117,16 @@ export class MyScene extends CGFscene {
     // Apply transformations corresponding to the camera position relative to the origin
     this.applyViewMatrix();
 
+    this.pushMatrix();
+      if (this.displayAxis) this.axis.display();
+    this.popMatrix();
 
-    
+    this.pushMatrix();
     this.planeAppearance.setTexture(this.textures[this.selectedTexture]);
     this.planeAppearance.apply();
 
     this.scale(400, 1, 400);
     this.rotate(-Math.PI / 2, 1, 0, 0);
-
-    // Draw axis
-    if (this.displayAxis) this.axis.display();
 
     if (this.selectedObject == 0) {
       this.plane.display();
