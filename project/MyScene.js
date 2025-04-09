@@ -127,8 +127,11 @@ export class MyScene extends CGFscene {
           this.plane.display();
       }
       else if (this.selectedObject == 1) {
-          this.setDefaultAppearance();
-          this.scale(50, 50, 50);
+
+        this.planeAppearance.setTexture(this.textures[this.selectedTexture]);
+        this.planeAppearance.apply();
+~
+        this.scale(50, 50, 50);
           this.sphere.display();
       }
     this.popMatrix();
