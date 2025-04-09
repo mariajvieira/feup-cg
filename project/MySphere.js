@@ -22,7 +22,7 @@ export class MySphere extends CGFobject {
                 let theta = 2 * Math.PI * slice / this.slices;  // 0 a 2PI
                 let x = sinPhi * Math.cos(theta);
                 let z = sinPhi * Math.sin(theta);
-                this.vertices.push(x, y, z);
+                this.vertices.push(x, y, -z);
                 this.normals.push(x, y, z);
                 this.texCoords.push(slice / this.slices, stack / this.stacks);
             }
