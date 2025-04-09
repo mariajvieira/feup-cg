@@ -28,10 +28,9 @@ export class MyScene extends CGFscene {
 
     this.setUpdatePeriod(50);
 
-    //Initialize scene objects
     this.axis = new CGFaxis(this, 20, 1);
     this.plane = new MyPlane(this, 64);
-    this.sphere = new MySphere(this, 16, 8);
+    this.sphere = new MySphere(this, 64, 32);
 
     this.planeAppearance = new CGFappearance(this);
     this.planeAppearance.setAmbient(0.3, 0.3, 0.3, 1);
