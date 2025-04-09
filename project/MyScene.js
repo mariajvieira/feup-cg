@@ -33,12 +33,17 @@ export class MyScene extends CGFscene {
     this.plane = new MyPlane(this, 64);
     this.sphere = new MySphere(this, 16, 8);
 
-    // Plane appearance
     this.planeAppearance = new CGFappearance(this);
     this.planeAppearance.setAmbient(0.3, 0.3, 0.3, 1);
     this.planeAppearance.setDiffuse(0.7, 0.7, 0.7, 1);
     this.planeAppearance.setSpecular(0.0, 0.0, 0.0, 1);
     this.planeAppearance.setShininess(10);
+
+    this.sphereAppearance = new CGFappearance(this);
+    this.sphereAppearance.setAmbient(1.0, 1.0, 1.0, 1.0); 
+    this.sphereAppearance.setDiffuse(0.7, 0.7, 0.7, 1.0);
+    this.sphereAppearance.setSpecular(0.0, 0.0, 0.0, 1.0);
+    this.sphereAppearance.setShininess(10);
 
     // Textures
     this.texture1 = new CGFtexture(this, 'images/grass.jpg');
@@ -127,12 +132,15 @@ export class MyScene extends CGFscene {
           this.plane.display();
       }
       else if (this.selectedObject == 1) {
-
-        this.planeAppearance.setTexture(this.textures[this.selectedTexture]);
-        this.planeAppearance.apply();
-~
-        this.scale(50, 50, 50);
+          this.gl.disable(this.gl.CULL_FACE);
+          
+          this.sphereAppearance.setTexture(this.textures[this.selectedTexture]);
+          this.sphereAppearance.apply();
+          
+          this.scale(50, 50, 50);
           this.sphere.display();
+          
+          this.gl.enable(this.gl.CULL_FACE);
       }
     this.popMatrix();
 
