@@ -36,7 +36,6 @@ export class MySphere extends CGFobject {
                 this.indices.push(second, second + 1, first + 1);
             }
         }
-
         this.primitiveType = this.scene.gl.TRIANGLES;
         this.initGLBuffers();
     }
