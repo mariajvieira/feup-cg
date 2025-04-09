@@ -82,7 +82,6 @@ export class MyScene extends CGFscene {
     var text = "Keys pressed: ";
     var keysPressed = false;
 
-    // Check for key codes e.g. in https://keycode.info/
     if (this.gui.isKeyPressed("KeyW")) {
       text += " W ";
       keysPressed = true;
@@ -113,29 +112,22 @@ export class MyScene extends CGFscene {
     this.loadIdentity();
     this.applyViewMatrix();
 
-    // Desenhar eixo
     this.pushMatrix();
       if (this.displayAxis)
         this.axis.display();
     this.popMatrix();
 
     this.pushMatrix();
-      if (this.selectedObject === 0) {
-          // Desenhar o plano
+      if (this.selectedObject == 0) {
           this.planeAppearance.setTexture(this.textures[this.selectedTexture]);
           this.planeAppearance.apply();
 
-          // Transformação para posicionar o plano
           this.scale(400, 1, 400);
           this.rotate(-Math.PI / 2, 1, 0, 0);
           this.plane.display();
       }
-      else if (this.selectedObject === 1) {
-          // Desenhar a esfera
-          // Se desejar, aplique uma aparência padrão ou uma específica para a esfera
+      else if (this.selectedObject == 1) {
           this.setDefaultAppearance();
-
-          // A esfera sendo unitária, escalone (e posicione) para que fique visível
           this.scale(50, 50, 50);
           this.sphere.display();
       }
