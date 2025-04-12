@@ -1,6 +1,7 @@
 import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFtexture } from "../lib/CGF.js";
 import { MyPlane } from "./MyPlane.js";
 import { MySphere } from "./MySphere.js";
+import { MyPanorama } from "./MyPanorama.js";
 
 /**
  * MyScene
@@ -16,7 +17,6 @@ export class MyScene extends CGFscene {
     this.initCameras();
     this.initLights();
 
-    //Background color
     this.gl.clearColor(0, 0, 0, 1.0);
 
     this.gl.clearDepth(100.0);
@@ -47,7 +47,8 @@ export class MyScene extends CGFscene {
     // Textures
     this.texture1 = new CGFtexture(this, 'images/grass.jpg');
     this.texture2 = new CGFtexture(this, 'images/earth.jpg');
- 
+    this.panoramaTexture = new CGFtexture(this, "images/panoramic.png");
+    this.panorama = new MyPanorama(this, this.panoramaTexture);
 
     this.displayAxis = true;
     this.displayPlane = true;
@@ -58,7 +59,7 @@ export class MyScene extends CGFscene {
     this.textureIds = { 'Grass': 0, 'Earth': 1}
 
     this.selectedObject = 0;
-    this.objectIDs = { 'Plane': 0, 'Sphere': 1 };
+    this.objectIDs = { 'Plane': 0, 'Sphere': 1, 'Panorama': 2 };
  
  
   }
@@ -122,25 +123,32 @@ export class MyScene extends CGFscene {
     this.popMatrix();
 
     this.pushMatrix();
-      if (this.selectedObject == 0) {
-          this.planeAppearance.setTexture(this.textures[this.selectedTexture]);
-          this.planeAppearance.apply();
 
-          this.scale(400, 1, 400);
-          this.rotate(-Math.PI / 2, 1, 0, 0);
-          this.plane.display();
-      }
-      else if (this.selectedObject == 1) {
-          this.gl.disable(this.gl.CULL_FACE);
-          
-          this.sphereAppearance.setTexture(this.textures[this.selectedTexture]);
-          this.sphereAppearance.apply();
-          
-          this.scale(50, 50, 50);
-          this.sphere.display();
-          
-          this.gl.enable(this.gl.CULL_FACE);
-      }
+    if (this.selectedObject == 0) {
+        this.planeAppearance.setTexture(this.textures[this.selectedTexture]);
+        this.planeAppearance.apply();
+
+        this.scale(400, 1, 400);
+        this.rotate(-Math.PI / 2, 1, 0, 0);
+        this.plane.display();
+    }
+    else if (this.selectedObject == 1) {
+        this.gl.disable(this.gl.CULL_FACE);
+        
+        this.sphereAppearance.setTexture(this.textures[this.selectedTexture]);
+        this.sphereAppearance.apply();
+        
+        this.scale(50, 50, 50);
+        this.sphere.display();
+        
+        this.gl.enable(this.gl.CULL_FACE);
+    }
+    else if (this.selectedObject == 2) {
+      
+      this.panorama.display();
+      
+    }
+
     this.popMatrix();
 
     this.setDefaultAppearance();
