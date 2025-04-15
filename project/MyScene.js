@@ -2,6 +2,8 @@ import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFtexture } from "../lib/
 import { MyPlane } from "./MyPlane.js";
 import { MySphere } from "./MySphere.js";
 import { MyPanorama } from "./MyPanorama.js";
+import { MyWindow } from "./MyWindow.js";
+import { MyBuilding } from "./MyBuilding.js";
 
 /**
  * MyScene
@@ -28,9 +30,12 @@ export class MyScene extends CGFscene {
 
     this.setUpdatePeriod(50);
 
+    // Objects
     this.axis = new CGFaxis(this, 20, 1);
     this.plane = new MyPlane(this, 64);
     this.sphere = new MySphere(this, 64, 32);
+    this.window = new MyWindow(this, [0, 0, 1, 1]);
+    this.building = new MyBuilding(this, 10, 10);
 
     this.planeAppearance = new CGFappearance(this);
     this.planeAppearance.setAmbient(0.3, 0.3, 0.3, 1);
@@ -50,6 +55,13 @@ export class MyScene extends CGFscene {
     this.panoramaTexture = new CGFtexture(this, "images/panoramic.png");
     this.panorama = new MyPanorama(this, this.panoramaTexture);
 
+    this.windowMaterial = new CGFappearance(this);
+    this.windowMaterial.setAmbient(0.5, 0.5, 0.5, 1);
+    this.windowMaterial.setDiffuse(0.9, 0.9, 0.9, 1);
+    this.windowMaterial.setSpecular(0.1, 0.1, 0.1, 1);
+    this.windowMaterial.loadTexture('images/window.jpg');
+    this.windowMaterial.setTextureWrap('REPEAT', 'REPEAT');
+
     this.displayAxis = true;
     this.displayPlane = true;
     this.scaleFactor = 1;
@@ -59,7 +71,7 @@ export class MyScene extends CGFscene {
     this.textureIds = { 'Grass': 0, 'Earth': 1}
 
     this.selectedObject = 0;
-    this.objectIDs = { 'Plane': 0, 'Sphere': 1, 'Panorama': 2 };
+    this.objectIDs = { 'Plane': 0, 'Sphere': 1, 'Panorama': 2, 'Window': 3 };
  
  
   }
@@ -81,6 +93,10 @@ export class MyScene extends CGFscene {
 
   updateAppliedTexture() {
      this.setTexture(this.textures[this.selectedTexture]);
+  }
+
+  updateTexCoords() {
+    this.quad.updateTexCoords(this.texCoords);
   }
 
   checkKeys() {
@@ -125,17 +141,18 @@ export class MyScene extends CGFscene {
     this.pushMatrix();
 
     if (this.selectedObject == 0) {
-        this.planeAppearance.setTexture(this.textures[this.selectedTexture]);
+        this.planeAppearance.setTexture(this.texture1); 
         this.planeAppearance.apply();
 
         this.scale(400, 1, 400);
         this.rotate(-Math.PI / 2, 1, 0, 0);
         this.plane.display();
     }
+
     else if (this.selectedObject == 1) {
         this.gl.disable(this.gl.CULL_FACE);
         
-        this.sphereAppearance.setTexture(this.textures[this.selectedTexture]);
+        this.sphereAppearance.setTexture(this.texture2); 
         this.sphereAppearance.apply();
         
         this.scale(50, 50, 50);
@@ -143,10 +160,18 @@ export class MyScene extends CGFscene {
         
         this.gl.enable(this.gl.CULL_FACE);
     }
+
     else if (this.selectedObject == 2) {
-      
       this.panorama.display();
-      
+    }
+    else if (this.selectedObject == 3) {
+      this.pushMatrix();
+      this.gl.disable(this.gl.CULL_FACE);
+      this.windowMaterial.apply();
+      this.translate(0, 5, 0);  
+      this.scale(10, 10, 10);
+      this.window.display();
+      this.gl.enable(this.gl.CULL_FACE);
     }
 
     this.popMatrix();
