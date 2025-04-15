@@ -35,7 +35,7 @@ export class MyScene extends CGFscene {
     this.plane = new MyPlane(this, 64);
     this.sphere = new MySphere(this, 64, 32);
     this.window = new MyWindow(this, [0, 0, 1, 1]);
-    this.building = new MyBuilding(this, 10, 10);
+    this.building = new MyBuilding(this, 5);
 
     this.planeAppearance = new CGFappearance(this);
     this.planeAppearance.setAmbient(0.3, 0.3, 0.3, 1);
@@ -48,6 +48,12 @@ export class MyScene extends CGFscene {
     this.sphereAppearance.setDiffuse(0.7, 0.7, 0.7, 1.0);
     this.sphereAppearance.setSpecular(0.0, 0.0, 0.0, 1.0);
     this.sphereAppearance.setShininess(10);
+
+    this.buildingAppearance = new CGFappearance(this);
+    this.buildingAppearance.setAmbient(1.0, 1.0, 1.0, 1.0);
+    this.buildingAppearance.setDiffuse(1.0, 1.0, 1.0, 1.0);
+    this.buildingAppearance.setSpecular(0.0, 0.0, 0.0, 1.0);
+    this.buildingAppearance.setShininess(10);
 
     // Textures
     this.texture1 = new CGFtexture(this, 'images/grass.jpg');
@@ -65,15 +71,10 @@ export class MyScene extends CGFscene {
     this.displayAxis = true;
     this.displayPlane = true;
     this.scaleFactor = 1;
-    this.selectedTexture = 0;
-
-    this.textures = [this.texture1, this.texture2];
-    this.textureIds = { 'Grass': 0, 'Earth': 1}
 
     this.selectedObject = 0;
     this.objectIDs = { 'Plane': 0, 'Sphere': 1, 'Panorama': 2, 'Window': 3, 'Building': 4};
- 
- 
+
   }
   initLights() {
     this.lights[0].setPosition(200, 200, 200, 1);
@@ -141,7 +142,7 @@ export class MyScene extends CGFscene {
     this.pushMatrix();
 
     if (this.selectedObject == 0) {
-        this.planeAppearance.setTexture(this.texture1); 
+        this.planeAppearance.setTexture(this.texture1);
         this.planeAppearance.apply();
 
         this.scale(400, 1, 400);
@@ -151,13 +152,13 @@ export class MyScene extends CGFscene {
 
     else if (this.selectedObject == 1) {
         this.gl.disable(this.gl.CULL_FACE);
-        
-        this.sphereAppearance.setTexture(this.texture2); 
+
+        this.sphereAppearance.setTexture(this.texture2);
         this.sphereAppearance.apply();
-        
+
         this.scale(50, 50, 50);
         this.sphere.display();
-        
+
         this.gl.enable(this.gl.CULL_FACE);
     }
 
@@ -168,13 +169,20 @@ export class MyScene extends CGFscene {
       this.pushMatrix();
       this.gl.disable(this.gl.CULL_FACE);
       this.windowMaterial.apply();
-      this.translate(0, 5, 0);  
+      this.translate(0, 5, 0);
       this.scale(10, 10, 10);
       this.window.display();
       this.gl.enable(this.gl.CULL_FACE);
     }
     else if (this.selectedObject == 4) {
+      this.pushMatrix();
+      this.gl.disable(this.gl.CULL_FACE);
+      this.translate(0, 5, 0);
+      this.scale(10, 10, 10);
+      this.buildingAppearance.apply();
       this.building.display();
+      this.gl.enable(this.gl.CULL_FACE);
+      this.popMatrix();
     }
 
     this.popMatrix();
