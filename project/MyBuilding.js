@@ -4,8 +4,8 @@ export class MyBuilding extends CGFobject {
     constructor(scene, floors) {
         super(scene);
         this.floors = floors;  // Center module height = floors
-        this.width = 6;        // module width
-        this.depth = 5.5;      // module depth
+        this.width = 6;        
+        this.depth = 5.5;     
         this.initBuffers();
     }
 
@@ -102,31 +102,24 @@ export class MyBuilding extends CGFobject {
     }
     
     display() {
-        // Calculate scaling factors for the lateral modules:
-        // Height scale for sides (one floor less)
         const scaleYSide = (this.floors - 1) / this.floors;
-        // Depth scale for sides (one unit less in depth)
         const scaleZSide = (this.depth - 1) / this.depth;
         
-        // Left module:
+        // Left
         this.scene.pushMatrix();
-            // Translate left by the full module width:
             this.scene.translate(-this.width, 0, 0);
-            // Scale Y and Z for side module:
             this.scene.scale(1, scaleYSide, scaleZSide);
             super.display();
         this.scene.popMatrix();
 
-        // Center module (original building):
+        // Center
         this.scene.pushMatrix();
             super.display();
         this.scene.popMatrix();
 
-        // Right module:
+        // Right
         this.scene.pushMatrix();
-            // Translate right by the full module width:
             this.scene.translate(this.width, 0, 0);
-            // Scale Y and Z for side module:
             this.scene.scale(1, scaleYSide, scaleZSide);
             super.display();
         this.scene.popMatrix();
