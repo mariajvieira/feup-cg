@@ -71,7 +71,7 @@ export class MyScene extends CGFscene {
     this.textureIds = { 'Grass': 0, 'Earth': 1}
 
     this.selectedObject = 0;
-    this.objectIDs = { 'Plane': 0, 'Sphere': 1, 'Panorama': 2, 'Window': 3 };
+    this.objectIDs = { 'Plane': 0, 'Sphere': 1, 'Panorama': 2, 'Window': 3, 'Building': 4};
  
  
   }
@@ -172,6 +172,9 @@ export class MyScene extends CGFscene {
       this.scale(10, 10, 10);
       this.window.display();
       this.gl.enable(this.gl.CULL_FACE);
+    }
+    else if (this.selectedObject == 4) {
+      this.building.display();
     }
 
     this.popMatrix();
