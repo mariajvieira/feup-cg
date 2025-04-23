@@ -34,20 +34,24 @@ export class MyScene extends CGFscene {
     this.axis = new CGFaxis(this, 20, 1);
     this.plane = new MyPlane(this, 64);
     this.sphere = new MySphere(this, 64, 32);
-    this.window = new MyWindow(this, [0, 0, 1, 1]);
     
-    const centerFloors      = 4;                // módulos centrais
-    const windowsPerFloor   = 2;                // janelas por andar
-    const windowCoords      = [0, 0, 1, 1];     // mapeamento completo da textura
-    const width             = 3;                // largura
-    const depth             = 5.5;              // profundidade
+    const windowCoords = [0, 0, 1, 1];
+    const windowTexture = 'images/window.jpg'; 
+    this.window = new MyWindow(this, windowCoords, windowTexture);
+    
+    const centerFloors      = 4;
+    const windowsPerFloor   = 2;
+    const width             = 3;
+    const depth             = 5.5;
+    const color             = [1, 1, 1, 1];
     this.building = new MyBuilding(
         this,
         centerFloors,
         windowsPerFloor,
         windowCoords,
         width,
-        depth
+        depth,
+        color
     );
 
     this.planeAppearance = new CGFappearance(this);
@@ -195,7 +199,6 @@ export class MyScene extends CGFscene {
       this.buildingAppearance.apply();
       this.building.display();
 
-      // Draw windows on the front face
       for (let wp of this.windowPositions) {
           this.scene.pushMatrix();
           this.scene.translate(wp.x, wp.y, 0.01);
