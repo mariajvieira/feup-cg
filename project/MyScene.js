@@ -35,6 +35,25 @@ export class MyScene extends CGFscene {
     this.axis = new CGFaxis(this, 20, 1);
     this.plane = new MyPlane(this, 64);
     this.sphere = new MySphere(this, 64, 32);
+    
+    const windowCoords = [0, 0, 1, 1];
+    const windowTexture = 'images/window.jpg'; 
+    this.window = new MyWindow(this, windowCoords, windowTexture);
+    
+    const centerFloors      = 4;
+    const windowsPerFloor   = 2;
+    const width             = 3;
+    const depth             = 5.5;
+    const color             = [1, 1, 1, 1];
+    this.building = new MyBuilding(
+        this,
+        centerFloors,
+        windowsPerFloor,
+        windowCoords,
+        width,
+        depth,
+        color
+    );
     this.window = new MyWindow(this, [0, 0, 1, 1]);
     this.building = new MyBuilding(this, 5);
     this.tree = new MyTree(this, 0, 'x', 0.2, 10, [0.2, 0.8, 0.2]);
@@ -183,6 +202,22 @@ export class MyScene extends CGFscene {
       this.scale(10, 10, 10);
       this.buildingAppearance.apply();
       this.building.display();
+
+      for (let wp of this.windowPositions) {
+          this.scene.pushMatrix();
+          this.scene.translate(wp.x, wp.y, 0.01);
+      }
+
+      this.gl.enable(this.gl.CULL_FACE);
+      this.popMatrix();
+    }
+    else if (this.selectedObject == 5) {
+      this.pushMatrix();
+      this.gl.disable(this.gl.CULL_FACE);
+      this.translate(0, 5, 0);
+      this.scale(10, 10, 10);
+      // this.buildingAppearance.apply();
+      this.tree.display();
       this.gl.enable(this.gl.CULL_FACE);
       this.popMatrix();
     }

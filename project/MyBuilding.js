@@ -1,14 +1,49 @@
-import { CGFobject } from '../lib/CGF.js';
+import { CGFobject, CGFappearance } from '../lib/CGF.js';
+import { MyWindow } from './MyWindow.js';
 
 export class MyBuilding extends CGFobject {
-    constructor(scene, floors) {
+    constructor(scene, floors, windowsPerFloor, windowCoords, width, depth, color) {
         super(scene);
-        this.floors = floors;  // Center module height = floors
-        this.width = 6;        
-        this.depth = 5.5;     
+        this.floors = floors;      
+        this.width = width;          
+        this.depth = depth;        
+        this.windowsPerFloor = windowsPerFloor;
+        this.windowCoords = windowCoords;
+        
+        this.appearance = new CGFappearance(scene);
+        this.appearance.setAmbient(color[0], color[1], color[2], color[3]);
+        this.appearance.setDiffuse(color[0], color[1], color[2], color[3]);
+        this.appearance.setSpecular(0.1, 0.1, 0.1, 1);
+        this.appearance.setShininess(10);
+        
         this.initBuffers();
+        this.initWindows();
     }
 
+    initWindows() {
+        this.windowPositionsSide = [];
+        this.windowPositionsCenter = [];
+        const sideFloors = this.floors - 1;
+        const modules = [
+            { floors: sideFloors, x0: -this.width },
+            { floors: this.floors,  x0:  0         },
+            { floors: sideFloors, x0:  this.width }
+        ];
+        for (let m of modules) {
+            for (let f = 0; f < m.floors; f++) {
+                if (m.x0 === 0 && f === 0) continue;  
+                for (let i = 0; i < this.windowsPerFloor; i++) {
+                    const x = m.x0 - this.width/2 + (i+1)*(this.width/(this.windowsPerFloor+1));
+                    const y = 0.5 + f * 1.0;          
+                    if (m.x0 === 0)
+                        this.windowPositionsCenter.push({ x, y });
+                    else
+                        this.windowPositionsSide.push({ x, y });
+                }
+            }
+        }
+    }
+    
     initBuffers() {
         const w = this.width;
         const d = this.depth;
@@ -105,23 +140,51 @@ export class MyBuilding extends CGFobject {
         const scaleYSide = (this.floors - 1) / this.floors;
         const scaleZSide = (this.depth - 1) / this.depth;
         
-        // Left
+        this.appearance.apply();
+
         this.scene.pushMatrix();
             this.scene.translate(-this.width, 0, 0);
             this.scene.scale(1, scaleYSide, scaleZSide);
             super.display();
         this.scene.popMatrix();
 
-        // Center
         this.scene.pushMatrix();
             super.display();
         this.scene.popMatrix();
 
-        // Right
         this.scene.pushMatrix();
             this.scene.translate(this.width, 0, 0);
             this.scene.scale(1, scaleYSide, scaleZSide);
             super.display();
         this.scene.popMatrix();
+
+        this.scene.windowMaterial.apply();
+
+        const leftSideWindows = this.windowPositionsSide.filter(wp => wp.x < 0);
+        const rightSideWindows = this.windowPositionsSide.filter(wp => wp.x >= 0);
+
+        for (let wp of leftSideWindows) {
+            this.scene.pushMatrix();
+                this.scene.translate(wp.x + 0.5 * this.width, wp.y, this.depth - 1 + 0.01);
+                this.scene.scale(0.5, 0.5, 0.5);
+                new MyWindow(this.scene, this.windowCoords).display();
+            this.scene.popMatrix();
+        }
+
+        for (let wp of rightSideWindows) {
+            this.scene.pushMatrix();
+                this.scene.translate(wp.x + this.width / 2, wp.y, this.depth - 1 + 0.01);
+                this.scene.scale(0.5, 0.5, 0.5);
+                new MyWindow(this.scene, this.windowCoords).display();
+            this.scene.popMatrix();
+        }
+
+        for (let wp of this.windowPositionsCenter) {
+            this.scene.pushMatrix();
+                this.scene.translate(wp.x + this.width / 2, wp.y, this.depth + 0.01);
+                this.scene.scale(0.5, 0.5, 0.5);
+                new MyWindow(this.scene, this.windowCoords).display();
+            this.scene.popMatrix();
+        }
     }
 }
