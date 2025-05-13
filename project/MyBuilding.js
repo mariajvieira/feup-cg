@@ -1,5 +1,7 @@
 import { CGFobject, CGFappearance } from '../lib/CGF.js';
 import { MyWindow } from './MyWindow.js';
+import { MyDoor   } from './MyDoor.js'; 
+
 
 export class MyBuilding extends CGFobject {
     constructor(scene, floors, windowsPerFloor, windowCoords, width, depth, color) {
@@ -9,7 +11,13 @@ export class MyBuilding extends CGFobject {
         this.depth = depth;        
         this.windowsPerFloor = windowsPerFloor;
         this.windowCoords = windowCoords;
-        
+
+        this.doorWidth   = 0.75;
+        this.doorHeight  = 0.75;
+        this.doorTexture = 'images/door.png';
+        this.door        = new MyDoor(scene, this.doorWidth, this.doorHeight, this.doorTexture);
+    
+
         this.appearance = new CGFappearance(scene);
         this.appearance.setAmbient(color[0], color[1], color[2], color[3]);
         this.appearance.setDiffuse(color[0], color[1], color[2], color[3]);
@@ -139,7 +147,8 @@ export class MyBuilding extends CGFobject {
     display() {
         const scaleYSide = (this.floors - 1) / this.floors;
         const scaleZSide = (this.depth - 1) / this.depth;
-        
+        const w = this.width;
+
         this.appearance.apply();
 
         this.scene.pushMatrix();
@@ -147,10 +156,12 @@ export class MyBuilding extends CGFobject {
             this.scene.scale(1, scaleYSide, scaleZSide);
             super.display();
         this.scene.popMatrix();
+        
 
         this.scene.pushMatrix();
             super.display();
         this.scene.popMatrix();
+
 
         this.scene.pushMatrix();
             this.scene.translate(this.width, 0, 0);
@@ -159,13 +170,14 @@ export class MyBuilding extends CGFobject {
         this.scene.popMatrix();
 
         this.scene.windowMaterial.apply();
+        
 
         const leftSideWindows = this.windowPositionsSide.filter(wp => wp.x < 0);
         const rightSideWindows = this.windowPositionsSide.filter(wp => wp.x >= 0);
 
         for (let wp of leftSideWindows) {
             this.scene.pushMatrix();
-                this.scene.translate(wp.x + 0.5 * this.width, wp.y, this.depth - 1 + 0.01);
+                this.scene.translate(wp.x + 0.5 * this.width, wp.y, this.depth - 1 + 0.02);
                 this.scene.scale(0.5, 0.5, 0.5);
                 new MyWindow(this.scene, this.windowCoords).display();
             this.scene.popMatrix();
@@ -173,7 +185,7 @@ export class MyBuilding extends CGFobject {
 
         for (let wp of rightSideWindows) {
             this.scene.pushMatrix();
-                this.scene.translate(wp.x + this.width / 2, wp.y, this.depth - 1 + 0.01);
+                this.scene.translate(wp.x + this.width / 2, wp.y, this.depth - 1 + 0.02);
                 this.scene.scale(0.5, 0.5, 0.5);
                 new MyWindow(this.scene, this.windowCoords).display();
             this.scene.popMatrix();
@@ -181,10 +193,17 @@ export class MyBuilding extends CGFobject {
 
         for (let wp of this.windowPositionsCenter) {
             this.scene.pushMatrix();
-                this.scene.translate(wp.x + this.width / 2, wp.y, this.depth + 0.01);
+                this.scene.translate(wp.x + this.width / 2, wp.y, this.depth + 0.02);
                 this.scene.scale(0.5, 0.5, 0.5);
                 new MyWindow(this.scene, this.windowCoords).display();
             this.scene.popMatrix();
         }
+
+        this.scene.pushMatrix();
+            this.scene.translate((w - this.doorWidth)/2, 0, this.depth + 0.02);
+            this.door.display();
+        this.scene.popMatrix();
+
+        this.scene.popMatrix();
     }
 }
