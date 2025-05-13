@@ -1,5 +1,6 @@
 import { CGFappearance, CGFobject } from '../lib/CGF.js';
 import { MyCone } from './MyCone.js';
+import { MyPyramid } from './MyPyramid.js';
 import { MyCylinder } from './MyCylinder.js';
 
 export class MyTree extends CGFobject {
@@ -8,19 +9,23 @@ export class MyTree extends CGFobject {
         super(scene);
 
         this.angle = angle * Math.PI / 180;
-        this.axis = axis.toLowerCase();
         this.trunkRadius = trunkRadius;
         this.height = height;
 
         this.trunkHeight = this.height * 0.2;
         this.crownHeight = this.height * 0.8;
 
-        this.numPyramids = Math.max(2, Math.floor(this.crownHeight / 2));
+        const step = 1.0;
+        this.numPyramids = Math.max(2, Math.ceil(this.crownHeight / step));
 
-        this.pyramidHeight = this.crownHeight / this.numPyramids;
+        const overlap = 0.04*height;
+
+        this.pyramidHeight = (this.crownHeight + (this.numPyramids - 1) * overlap) / this.numPyramids;
+        this.shift = this.pyramidHeight - overlap;
+
 
         this.trunk = new MyCylinder(scene, 16);
-        this.pyramid = new MyCone(scene, 4, 1);
+        this.pyramid = new MyPyramid(scene, 6, 1);
 
         this.initMaterials(crownColor);
     }
@@ -50,10 +55,10 @@ export class MyTree extends CGFobject {
 
         this.scene.pushMatrix();
         this.trunkMaterial.apply();
-        this.scene.translate(0, this.trunkHeight / 2, 0); 
+        this.scene.translate(0, this.trunkHeight / 2, 0);
         this.scene.scale(this.trunkRadius, this.trunkHeight, this.trunkRadius);
         this.trunk.display();
-        
+
         this.scene.popMatrix();
 
         this.crownMaterial.apply();
@@ -65,17 +70,17 @@ export class MyTree extends CGFobject {
 
             this.scene.translate(0, currentHeight, 0);
 
-            const baseScale = 2.0;
-            const stepScale = 0.25;
+            const baseScale = 1.5;
+            const stepScale = 0.4;
             const pyramidRadius = this.trunkRadius * (baseScale + (this.numPyramids - i - 1) * stepScale);
 
-            this.scene.scale(pyramidRadius, this.pyramidHeight * 0.6, pyramidRadius);
+            this.scene.scale(pyramidRadius, this.pyramidHeight, pyramidRadius);
 
             this.pyramid.display();
 
             this.scene.popMatrix();
 
-            currentHeight += this.pyramidHeight * 0.25;
+            currentHeight += this.shift;
         }
 
         this.scene.popMatrix();

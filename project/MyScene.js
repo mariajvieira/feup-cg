@@ -55,8 +55,7 @@ export class MyScene extends CGFscene {
         color
     );
     this.window = new MyWindow(this, [0, 0, 1, 1]);
-    this.building = new MyBuilding(this, 5);
-    this.tree = new MyTree(this, 0, 'x', 0.2, 10, [0.2, 0.8, 0.2]);
+    this.tree = new MyTree(this, 0, 'x', 0.7, 10, [0.2, 0.8, 0.2]);
 
     this.planeAppearance = new CGFappearance(this);
     this.planeAppearance.setAmbient(0.3, 0.3, 0.3, 1);
@@ -208,16 +207,6 @@ export class MyScene extends CGFscene {
           this.scene.translate(wp.x, wp.y, 0.01);
       }
 
-      this.gl.enable(this.gl.CULL_FACE);
-      this.popMatrix();
-    }
-    else if (this.selectedObject == 5) {
-      this.pushMatrix();
-      this.gl.disable(this.gl.CULL_FACE);
-      this.translate(0, 5, 0);
-      this.scale(10, 10, 10);
-      // this.buildingAppearance.apply();
-      this.tree.display();
       this.gl.enable(this.gl.CULL_FACE);
       this.popMatrix();
     }
