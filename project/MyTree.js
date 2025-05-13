@@ -32,9 +32,9 @@ export class MyTree extends CGFobject {
 
     initMaterials(crownColor) {
         this.trunkMaterial = new CGFappearance(this.scene);
-        this.trunkMaterial.setAmbient(0.4, 0.2, 0.0, 1.0);
-        this.trunkMaterial.setDiffuse(0.6, 0.3, 0.1, 1.0);
-        this.trunkMaterial.setSpecular(0.1, 0.1, 0.1, 1.0);
+        this.trunkMaterial.setAmbient(0.2, 0.1, 0.0, 1.0);
+        this.trunkMaterial.setDiffuse(0.4, 0.2, 0.1, 1.0);
+        this.trunkMaterial.setSpecular(0.05, 0.05, 0.05, 1.0);
         this.trunkMaterial.setShininess(5);
 
         this.crownMaterial = new CGFappearance(this.scene);

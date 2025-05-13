@@ -5,6 +5,7 @@ import { MyPanorama } from "./MyPanorama.js";
 import { MyWindow } from "./MyWindow.js";
 import { MyBuilding } from "./MyBuilding.js";
 import { MyTree } from "./MyTree.js";
+import { MyForest } from "./MyForest.js";
 
 /**
  * MyScene
@@ -56,6 +57,8 @@ export class MyScene extends CGFscene {
     );
     this.window = new MyWindow(this, [0, 0, 1, 1]);
     this.tree = new MyTree(this, 0, 'x', 0.7, 10, [0.2, 0.8, 0.2]);
+    this.forest = new MyForest(this, 5, 5, 1, 1);
+
 
     this.planeAppearance = new CGFappearance(this);
     this.planeAppearance.setAmbient(0.3, 0.3, 0.3, 1);
@@ -93,7 +96,7 @@ export class MyScene extends CGFscene {
     this.scaleFactor = 1;
 
     this.selectedObject = 0;
-    this.objectIDs = { 'Plane': 0, 'Sphere': 1, 'Panorama': 2, 'Window': 3, 'Building': 4, 'Tree': 5 };
+    this.objectIDs = { 'Plane': 0, 'Sphere': 1, 'Panorama': 2, 'Window': 3, 'Building': 4, 'Tree': 5, 'Forest': 6 };
 
   }
   initLights() {
@@ -217,6 +220,15 @@ export class MyScene extends CGFscene {
       this.scale(10, 10, 10);
       // this.buildingAppearance.apply();
       this.tree.display();
+      this.gl.enable(this.gl.CULL_FACE);
+      this.popMatrix();
+    }
+    else if (this.selectedObject == 6) {
+      this.pushMatrix();
+      this.gl.disable(this.gl.CULL_FACE);
+      this.translate(0, 5, 0);
+      this.scale(10, 10, 10);
+      this.forest.display();
       this.gl.enable(this.gl.CULL_FACE);
       this.popMatrix();
     }
