@@ -37,11 +37,17 @@ export class MyTree extends CGFobject {
         this.trunkMaterial.setSpecular(0.05, 0.05, 0.05, 1.0);
         this.trunkMaterial.setShininess(5);
 
+        // this.trunkMaterial.setTexture('images/tree_stem.jpg');
+        // this.trunkMaterial.setTextureWrap(this.scene.gl.REPEAT, this.scene.gl.REPEAT);
+
         this.crownMaterial = new CGFappearance(this.scene);
         this.crownMaterial.setAmbient(crownColor[0] * 0.4, crownColor[1] * 0.4, crownColor[2] * 0.4, 1.0);
         this.crownMaterial.setDiffuse(crownColor[0], crownColor[1], crownColor[2], 1.0);
         this.crownMaterial.setSpecular(0.1, 0.1, 0.1, 1.0);
         this.crownMaterial.setShininess(10);
+
+        // this.crownMaterial.setTexture('images/tree_leaves.jpg');
+        // this.crownMaterial.setTextureWrap(this.scene.gl.REPEAT, this.scene.gl.REPEAT);
     }
 
     display() {

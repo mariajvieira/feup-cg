@@ -57,8 +57,7 @@ export class MyScene extends CGFscene {
     );
     this.window = new MyWindow(this, [0, 0, 1, 1]);
     this.tree = new MyTree(this, 0, 'x', 0.7, 10, [0.2, 0.8, 0.2]);
-    this.forest = new MyForest(this, 5, 5, 1, 1);
-
+    this.forest = new MyForest(this, 5, 5, 20, 20);
 
     this.planeAppearance = new CGFappearance(this);
     this.planeAppearance.setAmbient(0.3, 0.3, 0.3, 1);
@@ -96,7 +95,7 @@ export class MyScene extends CGFscene {
     this.scaleFactor = 1;
 
     this.selectedObject = 0;
-    this.objectIDs = { 'Plane': 0, 'Sphere': 1, 'Panorama': 2, 'Window': 3, 'Building': 4, 'Tree': 5, 'Forest': 6 };
+    this.objectIDs = { 'Plane': 0, 'Sphere': 1, 'Panorama': 2, 'Building': 4, 'Forest': 6 };
 
   }
   initLights() {
@@ -110,7 +109,7 @@ export class MyScene extends CGFscene {
       0.4,
       0.1,
       1000,
-      vec3.fromValues(200, 200, 200),
+      vec3.fromValues(200, 20, 60),
       vec3.fromValues(0, 0, 0)
     );
   }
@@ -184,9 +183,28 @@ export class MyScene extends CGFscene {
 
         this.gl.enable(this.gl.CULL_FACE);
     }
-
     else if (this.selectedObject == 2) {
-      this.panorama.display();
+      this.gl.disable(this.gl.DEPTH_TEST);
+      this.gl.disable(this.gl.CULL_FACE);
+      
+      this.pushMatrix();
+        this.loadIdentity();
+        this.applyViewMatrix();
+        
+        this.panorama.display();
+        
+        this.rotate(0.5, 0, 1, 0);      
+        this.rotate(0.1, 1, 0, 0);     
+        
+        this.translate(0, -100, -600);   
+                
+        this.scale(4, 4, 4);
+        
+        this.forest.display();
+      this.popMatrix();
+      
+      this.gl.enable(this.gl.CULL_FACE);
+      this.gl.enable(this.gl.DEPTH_TEST);
     }
     else if (this.selectedObject == 3) {
       this.pushMatrix();
@@ -218,7 +236,6 @@ export class MyScene extends CGFscene {
       this.gl.disable(this.gl.CULL_FACE);
       this.translate(0, 5, 0);
       this.scale(10, 10, 10);
-      // this.buildingAppearance.apply();
       this.tree.display();
       this.gl.enable(this.gl.CULL_FACE);
       this.popMatrix();
