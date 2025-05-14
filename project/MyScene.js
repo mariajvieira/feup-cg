@@ -95,7 +95,7 @@ export class MyScene extends CGFscene {
     this.scaleFactor = 1;
 
     this.selectedObject = 0;
-    this.objectIDs = { 'Plane': 0, 'Sphere': 1, 'Panorama': 2, 'Building': 4, 'Forest': 6 };
+    this.objectIDs = { 'Plane': 0, 'Sphere': 1, 'Panorama': 2, 'Building': 3, 'Forest': 4 };
 
   }
   initLights() {
@@ -186,36 +186,25 @@ export class MyScene extends CGFscene {
     else if (this.selectedObject == 2) {
       this.gl.disable(this.gl.DEPTH_TEST);
       this.gl.disable(this.gl.CULL_FACE);
-      
+
       this.pushMatrix();
         this.loadIdentity();
         this.applyViewMatrix();
-        
+
         this.panorama.display();
-        
-        this.rotate(0.5, 0, 1, 0);      
-        this.rotate(0.1, 1, 0, 0);     
-        
-        this.translate(0, -100, -600);   
-                
+
+
+        this.translate(-250, -200, -600);
+
         this.scale(4, 4, 4);
-        
+
         this.forest.display();
       this.popMatrix();
-      
+
       this.gl.enable(this.gl.CULL_FACE);
       this.gl.enable(this.gl.DEPTH_TEST);
     }
     else if (this.selectedObject == 3) {
-      this.pushMatrix();
-      this.gl.disable(this.gl.CULL_FACE);
-      this.windowMaterial.apply();
-      this.translate(0, 5, 0);
-      this.scale(10, 10, 10);
-      this.window.display();
-      this.gl.enable(this.gl.CULL_FACE);
-    }
-    else if (this.selectedObject == 4) {
       this.pushMatrix();
       this.gl.disable(this.gl.CULL_FACE);
       this.translate(0, 5, 0);
@@ -231,16 +220,7 @@ export class MyScene extends CGFscene {
       this.gl.enable(this.gl.CULL_FACE);
       this.popMatrix();
     }
-    else if (this.selectedObject == 5) {
-      this.pushMatrix();
-      this.gl.disable(this.gl.CULL_FACE);
-      this.translate(0, 5, 0);
-      this.scale(10, 10, 10);
-      this.tree.display();
-      this.gl.enable(this.gl.CULL_FACE);
-      this.popMatrix();
-    }
-    else if (this.selectedObject == 6) {
+    else if (this.selectedObject == 4) {
       this.pushMatrix();
       this.gl.disable(this.gl.CULL_FACE);
       this.translate(0, 5, 0);
