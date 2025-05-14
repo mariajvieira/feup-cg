@@ -194,9 +194,9 @@ export class MyScene extends CGFscene {
         this.panorama.display();
 
 
-        this.translate(-250, -200, -600);
+        this.translate(-500, -200, -600);
 
-        this.scale(4, 4, 4);
+        this.scale(5, 5, 5);
 
         this.forest.display();
       this.popMatrix();
