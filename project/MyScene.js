@@ -37,20 +37,19 @@ export class MyScene extends CGFscene {
     this.plane = new MyPlane(this, 64);
     this.sphere = new MySphere(this, 64, 32);
     
-    const windowCoords = [0, 0, 1, 1];
-    const windowTexture = 'images/window.jpg'; 
-    this.window = new MyWindow(this, windowCoords, windowTexture);
-    
-    const centerFloors      = 4;
-    const windowsPerFloor   = 2;
-    const width             = 3;
-    const depth             = 5.5;
-    const color             = [1, 1, 1, 1];
+    const windowCoords    = [0, 0, 1, 1];
+    const windowTexture   = 'images/window.jpg';
+    const sideFloors      = 4;
+    const windowsPerFloor = 2;
+    const width           = 3;
+    const depth           = 5.5;
+    const color           = [1, 1, 1, 1];
     this.building = new MyBuilding(
         this,
-        centerFloors,
+        sideFloors,
         windowsPerFloor,
         windowCoords,
+        windowTexture,
         width,
         depth,
         color
@@ -206,20 +205,26 @@ export class MyScene extends CGFscene {
     }
     else if (this.selectedObject == 3) {
       this.pushMatrix();
+        this.planeAppearance.setTexture(this.texture1);
+        this.planeAppearance.apply();
+        this.scale(400, 1, 400);
+        this.rotate(-Math.PI / 2, 1, 0, 0);
+        this.plane.display();
+    this.popMatrix();
+
+    this.pushMatrix();
       this.gl.disable(this.gl.CULL_FACE);
       this.translate(0, 5, 0);
       this.scale(10, 10, 10);
       this.buildingAppearance.apply();
       this.building.display();
 
-      for (let wp of this.windowPositions) {
-          this.scene.pushMatrix();
-          this.scene.translate(wp.x, wp.y, 0.01);
-      }
-
       this.gl.enable(this.gl.CULL_FACE);
       this.popMatrix();
+
+      
     }
+    
     else if (this.selectedObject == 4) {
       this.pushMatrix();
       this.gl.disable(this.gl.CULL_FACE);
