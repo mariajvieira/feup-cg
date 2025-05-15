@@ -22,6 +22,7 @@
 
 #### 2. Fire-fighters Building
 
+![Building](screenshots/project-t12g10-2.png)
 
 #### 3. Forest with textures 
 
