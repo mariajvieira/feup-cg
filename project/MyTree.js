@@ -1,5 +1,4 @@
 import { CGFappearance, CGFobject } from '../lib/CGF.js';
-import { MyCone } from './MyCone.js';
 import { MyPyramid } from './MyPyramid.js';
 import { MyCylinder } from './MyCylinder.js';
 
@@ -52,12 +51,6 @@ export class MyTree extends CGFobject {
         this.crownMaterial.loadTexture('images/tree.jpg');
         this.crownMaterial.setTextureWrap('REPEAT', 'REPEAT');
 
-        // try {
-        //     await this.crownMaterial.loadTexture('images/tree_leaves.jpg');
-        //     this.crownMaterial.setTextureWrap('REPEAT', 'REPEAT');
-        // } catch (error) {
-        //     console.error('Error loading crown texture:', error);
-        // }
     }
 
     display() {
