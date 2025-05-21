@@ -128,21 +128,56 @@ export class MyScene extends CGFscene {
     var keysPressed = false;
 
     if (this.gui.isKeyPressed("KeyW")) {
-      text += " W ";
-      keysPressed = true;
+        text += " W ";
+        keysPressed = true;
+        this.heli.accelerate(0.01);
     }
 
     if (this.gui.isKeyPressed("KeyS")) {
-      text += " S ";
-      keysPressed = true;
+        text += " S ";
+        keysPressed = true;
+        this.heli.accelerate(-0.01);
     }
+    
+    if (this.gui.isKeyPressed("KeyA")) {
+        text += " A ";
+        keysPressed = true;
+        this.heli.turn(-0.05);
+    }
+    
+    if (this.gui.isKeyPressed("KeyD")) {
+        text += " D ";
+        keysPressed = true;
+        this.heli.turn(0.05);
+    }
+    
+    if (this.gui.isKeyPressed("KeyR")) {
+        text += " R ";
+        keysPressed = true;
+        this.heli.reset();
+    }
+    
+    if (this.gui.isKeyPressed("KeyQ")) {
+        text += " Q ";
+        keysPressed = true;
+        this.heli.takeOff();
+    }
+    
+    if (this.gui.isKeyPressed("KeyL")) {
+        text += " L ";
+        keysPressed = true;
+        this.heli.land();
+    }
+    
     if (keysPressed)
-      console.log(text);
-  }
+        console.log(text);
+}
 
-  update(t) {
+update(t) {
     this.checkKeys();
-  }
+
+    this.heli.update(t);
+}
 
   setDefaultAppearance() {
     this.setAmbient(0.5, 0.5, 0.5, 1.0);
@@ -223,7 +258,6 @@ export class MyScene extends CGFscene {
 
       this.gl.enable(this.gl.CULL_FACE);
       this.popMatrix();
-
       
     }
     
