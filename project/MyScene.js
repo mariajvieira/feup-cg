@@ -219,27 +219,47 @@ update(t) {
 
         this.gl.enable(this.gl.CULL_FACE);
     }
-    else if (this.selectedObject == 2) {
-      this.gl.disable(this.gl.DEPTH_TEST);
-      this.gl.disable(this.gl.CULL_FACE);
-
-      this.pushMatrix();
+else if (this.selectedObject == 2) {
+    // Panorama (desabilita depth test e cull face)
+    this.gl.disable(this.gl.DEPTH_TEST);
+    this.gl.disable(this.gl.CULL_FACE);
+    
+    this.pushMatrix();
         this.loadIdentity();
         this.applyViewMatrix();
-
         this.panorama.display();
-
-
-        this.translate(-500, -200, -600);
-
+    this.popMatrix();
+    
+    this.gl.enable(this.gl.DEPTH_TEST);
+    
+    // Chão infinito
+    this.pushMatrix();
+        this.loadIdentity();
+        this.applyViewMatrix();
+        
+        // Posiciona o chão no y=0
+        this.translate(0, -400, 0);
+        this.rotate(-Math.PI/2, 1, 0, 0); // Rotaciona para ficar horizontal
+        
+        // Aplica uma escala grande (mas não precisa ser enorme)
+        this.scale(200, 200, 1);
+        
+        this.planeAppearance.setTexture(this.texture1);
+        this.planeAppearance.apply();
+        this.plane.display();
+    this.popMatrix();
+    
+    // Floresta
+    this.pushMatrix();
+        this.loadIdentity();
+        this.applyViewMatrix();
+        this.translate(0, -200, 0);
         this.scale(5, 5, 5);
-
         this.forest.display();
-      this.popMatrix();
-
-      this.gl.enable(this.gl.CULL_FACE);
-      this.gl.enable(this.gl.DEPTH_TEST);
-    }
+    this.popMatrix();
+    
+    this.gl.enable(this.gl.CULL_FACE);
+}
     else if (this.selectedObject == 3) {
       this.pushMatrix();
         this.planeAppearance.setTexture(this.texture1);
