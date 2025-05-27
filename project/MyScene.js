@@ -58,8 +58,8 @@ export class MyScene extends CGFscene {
      );
     // this.window = new MyWindow(this, [0, 0, 1, 1]);
     // this.tree = new MyTree(this, 0, 'x', 0.7, 10, [0.2, 0.8, 0.2]);
-    // this.forest = new MyForest(this, 5, 5, 20, 20);
-    // this.heli = new MyHeli(this, 0, 'x', 0.7, 10, [0.2, 0.8, 0.2]);
+    this.forest = new MyForest(this, 2, 3, 15, 15);
+    this.heli = new MyHeli(this, 0, 'x', 0.7, 10, [0.2, 0.8, 0.2]);
 
     this.planeAppearance = new CGFappearance(this);
     this.planeAppearance.setAmbient(0.3, 0.3, 0.3, 1);
@@ -73,7 +73,6 @@ export class MyScene extends CGFscene {
     this.panoramaTexture = new CGFtexture(this, "images/panoramic.png");
     this.panorama = new MyPanorama(this, this.panoramaTexture);
     
-    // Configurar a textura do plano para repetir
     this.planeAppearance.setTexture(this.texture1);
     this.planeAppearance.setTextureWrap('REPEAT', 'REPEAT');
     // this.sphereAppearance = new CGFappearance(this);
@@ -99,7 +98,7 @@ export class MyScene extends CGFscene {
     this.displayPlane = true;
     this.scaleFactor = 1;
 
-    this.selectedObject = 2; // Forçar seleção do panorama
+    this.selectedObject = 2;
     this.objectIDs = { 'Plane': 0, 'Sphere': 1, 'Panorama': 2, 'Building': 3, 'Forest': 4, 'Heli': 5 };
 
   }
@@ -114,7 +113,7 @@ export class MyScene extends CGFscene {
       0.4,
       0.1,
       1000,
-      vec3.fromValues(200, 200, 60),  // Aumentei o valor Y de 20 para 100
+      vec3.fromValues(200, 200, 60),
       vec3.fromValues(0, 0, 0)
     );
   }
@@ -127,61 +126,61 @@ export class MyScene extends CGFscene {
     this.quad.updateTexCoords(this.texCoords);
   }
 
-  // checkKeys() {
-  //   var text = "Keys pressed: ";
-  //   var keysPressed = false;
-  //
-  //   if (this.gui.isKeyPressed("KeyW")) {
-  //       text += " W ";
-  //       keysPressed = true;
-  //       this.heli.accelerate(0.01);
-  //   }
-  //
-  //   if (this.gui.isKeyPressed("KeyS")) {
-  //       text += " S ";
-  //       keysPressed = true;
-  //       this.heli.accelerate(-0.01);
-  //   }
+  checkKeys() {
+     var text = "Keys pressed: ";
+     var keysPressed = false;
+  
+     if (this.gui.isKeyPressed("KeyW")) {
+         text += " W ";
+         keysPressed = true;
+         this.heli.accelerate(0.01);
+     }
+  
+     if (this.gui.isKeyPressed("KeyS")) {
+         text += " S ";
+         keysPressed = true;
+         this.heli.accelerate(-0.01);
+     }
     
-  //   if (this.gui.isKeyPressed("KeyA")) {
-  //       text += " A ";
-  //       keysPressed = true;
-  //       this.heli.turn(-0.05);
-  //   }
+     if (this.gui.isKeyPressed("KeyA")) {
+         text += " A ";
+         keysPressed = true;
+         this.heli.turn(-0.05);
+     }
     
-  //   if (this.gui.isKeyPressed("KeyD")) {
-  //       text += " D ";
-  //       keysPressed = true;
-  //       this.heli.turn(0.05);
-  //   }
+     if (this.gui.isKeyPressed("KeyD")) {
+         text += " D ";
+         keysPressed = true;
+         this.heli.turn(0.05);
+     }
     
-  //   if (this.gui.isKeyPressed("KeyR")) {
-  //       text += " R ";
-  //       keysPressed = true;
-  //       this.heli.reset();
-  //   }
+     if (this.gui.isKeyPressed("KeyR")) {
+         text += " R ";
+         keysPressed = true;
+         this.heli.reset();
+     }
     
-  //   if (this.gui.isKeyPressed("KeyQ")) {
-  //       text += " Q ";
-  //       keysPressed = true;
-  //       this.heli.takeOff();
-  //   }
+     if (this.gui.isKeyPressed("KeyQ")) {
+         text += " Q ";
+         keysPressed = true;
+         this.heli.takeOff();
+     }
     
-  //   if (this.gui.isKeyPressed("KeyL")) {
-  //       text += " L ";
-  //       keysPressed = true;
-  //       this.heli.land();
-  //   }
+     if (this.gui.isKeyPressed("KeyL")) {
+         text += " L ";
+         keysPressed = true;
+         this.heli.land();
+     }
     
-  //   if (keysPressed)
-  //       console.log(text);
-  // }
+     if (keysPressed)
+         console.log(text);
+   }
 
-  // update(t) {
-  //   this.checkKeys();
+   update(t) {
+     this.checkKeys();
 
-  //   this.heli.update(t);
-  // }
+     this.heli.update(t);
+   }
 
   setDefaultAppearance() {
     this.setAmbient(0.5, 0.5, 0.5, 1.0);
@@ -237,37 +236,53 @@ export class MyScene extends CGFscene {
         this.gl.enable(this.gl.CULL_FACE);
         this.gl.enable(this.gl.DEPTH_TEST);
         
-        // Chão infinito
         this.pushMatrix();
         this.planeAppearance.setTexture(this.texture1);
         this.planeAppearance.apply();
         
-        // Posicionar o plano abaixo da câmera
-        this.translate(0, -50, 0); // Modificado de -20 para -150
+        this.translate(0, -50, 0);
         
-        // Aumentar significativamente o tamanho do plano
-        this.scale(5000, 1, 5000); // Aumentado de 1000 para 5000
+        this.scale(5000, 1, 5000);
         this.rotate(-Math.PI / 2, 1, 0, 0);
         
         this.plane.display();
       this.popMatrix();
 
-        
-              // Adicionar o building ao panorama
+
               this.pushMatrix();
               this.buildingAppearance.apply();
               
-              // Posicionar o building em um local adequado no plano
-              this.translate(0, -50, -400); // Posiciona o building no plano, um pouco à frente
+              this.translate(0, -50, -400); 
               this.rotate(Math.PI, 0, 0, 0);
-              // Ajustar a escala do building para ficar proporcional à cena
+              
               this.scale(20, 20, 20);
               
-              // Ensure lights are enabled for proper texture display
               
               this.building.display();
               this.popMatrix();
  
+              this.gl.disable(this.gl.CULL_FACE);
+              this.pushMatrix();
+                  const roofY = -40 + this.building.floors * 20;
+                  this.translate(20, roofY, -325);
+                  this.rotate( Math.PI, 0, 0.2, 0 );
+                  this.scale(5, 5, 5);
+                  this.heli.display();
+                  this.popMatrix();
+                  this.popMatrix();
+                  this.gl.enable(this.gl.CULL_FACE);
+
+
+                  this.pushMatrix();
+                  this.gl.disable(this.gl.CULL_FACE);
+                  this.translate(270, -70, -400);
+                  this.scale(15, 15, 15);
+                  this.forest.display();
+                  this.gl.enable(this.gl.CULL_FACE);
+                  this.popMatrix();
+                  this.pushMatrix();
+               
+         
     // }
     // else if (this.selectedObject == 3) {
     //   this.pushMatrix();
