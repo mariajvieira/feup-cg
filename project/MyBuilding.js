@@ -128,17 +128,17 @@ initBuffers() {
 
     this.indices = [
         // Front face
-        0, 1, 2,   0, 2, 3,
+        0, 2, 1,   0, 3, 2,  // Invertido de: 0, 1, 2,   0, 2, 3
         // Right face
-        4, 5, 6,   4, 6, 7,
+        4, 6, 5,   4, 7, 6,  // Invertido de: 4, 5, 6,   4, 6, 7
         // Back face
-        8, 9, 10,  8, 10, 11,
+        8, 10, 9,  8, 11, 10, // Invertido de: 8, 9, 10,  8, 10, 11
         // Left face
-        12, 13, 14, 12, 14, 15,
+        12, 14, 13, 12, 15, 14, // Invertido de: 12, 13, 14, 12, 14, 15
         // Top face
-        16, 17, 18, 16, 18, 19,
+        16, 18, 17, 16, 19, 18, // Invertido de: 16, 17, 18, 16, 18, 19
         // Bottom face
-        20, 21, 22, 20, 22, 23
+        20, 22, 21, 20, 23, 22  // Invertido de: 20, 21, 22, 20, 22, 23
     ];
 
     this.normals = [
@@ -254,7 +254,7 @@ display() {
             this.floors + 0.01,
             this.depth/2
         );
-        this.scene.rotate(Math.PI/2, 1, 0, 0);
+        this.scene.rotate(-Math.PI/2, 1, 0, 0);
         this.scene.scale(helipadRadius, helipadRadius, 0.1);
         this.heliAppearance.apply();
         new MyCircle(this.scene, 32).display();
