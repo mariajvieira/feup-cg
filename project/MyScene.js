@@ -227,19 +227,19 @@ export class MyScene extends CGFscene {
 
         this.pushMatrix();
           this.buildingAppearance.apply();
-          this.translate(0, -50, -400); 
+          this.translate(0, -50, -300); 
           this.rotate(Math.PI, 0, 0, 0);
-          this.scale(20, 20, 20);
+          this.scale(10, 10, 10);
           this.building.display();
         this.popMatrix();
  
         this.gl.disable(this.gl.CULL_FACE);
 
         this.pushMatrix();
-          const roofY = -40 + this.building.floors * 20;
-          this.translate(20, roofY, -325);
+          const roofY = -85 + this.building.floors * 20;
+          this.translate(15, roofY, -270);
           this.rotate( Math.PI, 0, 0.2, 0 );
-          this.scale(5, 5, 5);
+          this.scale(2, 2, 2);
           this.heli.display();
         this.popMatrix();
 
@@ -248,15 +248,15 @@ export class MyScene extends CGFscene {
 
         this.pushMatrix();
           this.gl.disable(this.gl.CULL_FACE);
-          this.translate(270, -70, -400);
-          this.scale(15, 15, 15);
+          this.translate(130, -50, -300);
+          this.scale(5, 5, 5);
           this.forest.display();
           this.gl.enable(this.gl.CULL_FACE);
         this.popMatrix();
 
         this.pushMatrix();
-            this.translate(0, -45, 400); 
-            this.scale(10, 10, 10);
+            this.translate(-50, -45, -100); 
+            this.scale(3, 3, 3);
             this.gl.disable(this.gl.CULL_FACE);
             this.lake.display();
             this.gl.enable(this.gl.CULL_FACE);
