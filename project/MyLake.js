@@ -1,36 +1,33 @@
 import { CGFappearance, CGFobject, CGFtexture } from '../lib/CGF.js';
 
 export class MyLake extends CGFobject {
-    constructor(scene, size, detail) {
+    constructor(scene, width, depth, detail) {
         super(scene);
-        this.size = size || 20;
+        this.width = width || 20;  
+        this.depth = depth || 15;  
         this.detail = detail || 32; 
-        
+
         this.initBuffers();
         this.initMaterials();
     }
-    
+
     initBuffers() {
         this.vertices = [];
         this.indices = [];
         this.normals = [];
         this.texCoords = [];
-        
+
         this.vertices.push(0, 0, 0);
-        this.normals.push(0, 1, 0); 
+        this.normals.push(0, 1, 0);
         this.texCoords.push(0.5, 0.5);
-        
+
         for (let i = 0; i <= this.detail; i++) {
             const angle = (i / this.detail) * Math.PI * 2;
             
-            const variation = 0.7 + Math.sin(angle * 3) * 0.2 + Math.cos(angle * 5) * 0.1;
-            const radius = this.size * variation;
-            
-            const x = Math.cos(angle) * radius;
-            const z = Math.sin(angle) * radius;
-            
+            const x = Math.cos(angle) * this.width;
+            const z = Math.sin(angle) * this.depth;
+
             this.vertices.push(x, 0, z);
-            
             this.normals.push(0, 1, 0);
             
             const u = 0.5 + 0.5 * Math.cos(angle);

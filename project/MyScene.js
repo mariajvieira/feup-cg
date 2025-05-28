@@ -57,7 +57,7 @@ export class MyScene extends CGFscene {
      );
     this.forest = new MyForest(this, 2, 3, 15, 15);
     this.heli = new MyHeli(this, 0, 'x', 0.7, 10, [0.2, 0.8, 0.2]);
-    this.lake = new MyLake(this, 20, 20);
+    this.lake = new MyLake(this, 20, 15, 32);    
     // this.fire = new MyFire(this, 1, 1);
 
     this.planeAppearance = new CGFappearance(this);
@@ -86,14 +86,7 @@ export class MyScene extends CGFscene {
     this.buildingAppearance.setSpecular(0.0, 0.0, 0.0, 1.0);
     this.buildingAppearance.setShininess(10);
 
-    this.windowMaterial = new CGFappearance(this);
-    this.windowMaterial.setAmbient(0.5, 0.5, 0.5, 1);
-     this.windowMaterial.setDiffuse(0.9, 0.9, 0.9, 1);
-     this.windowMaterial.setSpecular(0.1, 0.1, 0.1, 1);
-    this.windowMaterial.loadTexture('images/window.jpg');
-     this.windowMaterial.setTextureWrap('REPEAT', 'REPEAT');
-
-    this.displayAxis = true;
+    this.displayAxis = false;
     this.displayPlane = true;
     this.scaleFactor = 1;
 
