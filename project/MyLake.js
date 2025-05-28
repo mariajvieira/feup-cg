@@ -1,20 +1,57 @@
-import {CGFappearance, CGFobject, CGFtexture} from '../lib/CGF.js';
-import {MyPlane} from './MyPlane.js';
+import { CGFappearance, CGFobject, CGFtexture } from '../lib/CGF.js';
 
 export class MyLake extends CGFobject {
-    constructor(scene, width, depth) {
+    constructor(scene, size, detail) {
         super(scene);
-        this.width = width || 20;
-        this.depth = depth || 20;
+        this.size = size || 20;
+        this.detail = detail || 32; 
         
-        this.plane = new MyPlane(scene, 20, 0, 5, 0, 5);
+        this.initBuffers();
         this.initMaterials();
+    }
+    
+    initBuffers() {
+        this.vertices = [];
+        this.indices = [];
+        this.normals = [];
+        this.texCoords = [];
+        
+        this.vertices.push(0, 0, 0);
+        this.normals.push(0, 1, 0); 
+        this.texCoords.push(0.5, 0.5);
+        
+        for (let i = 0; i <= this.detail; i++) {
+            const angle = (i / this.detail) * Math.PI * 2;
+            
+            const variation = 0.7 + Math.sin(angle * 3) * 0.2 + Math.cos(angle * 5) * 0.1;
+            const radius = this.size * variation;
+            
+            const x = Math.cos(angle) * radius;
+            const z = Math.sin(angle) * radius;
+            
+            this.vertices.push(x, 0, z);
+            
+            this.normals.push(0, 1, 0);
+            
+            const u = 0.5 + 0.5 * Math.cos(angle);
+            const v = 0.5 + 0.5 * Math.sin(angle);
+            this.texCoords.push(u, v);
+            
+            if (i < this.detail) {
+                this.indices.push(0, i+1, i+2);
+            }
+        }
+        
+        this.indices.push(0, this.detail, 1);
+        
+        this.primitiveType = this.scene.gl.TRIANGLES;
+        this.initGLBuffers();
     }
     
     initMaterials() {
         this.waterMaterial = new CGFappearance(this.scene);
         this.waterMaterial.setAmbient(0.2, 0.4, 0.8, 1.0);
-        this.waterMaterial.setDiffuse(0.2, 0.4, 0.8, 0.8);
+        this.waterMaterial.setDiffuse(0.2, 0.6, 0.9, 1.0);
         this.waterMaterial.setSpecular(1.0, 1.0, 1.0, 1.0);
         this.waterMaterial.setShininess(120);
         
@@ -26,12 +63,7 @@ export class MyLake extends CGFobject {
     display() {
         this.scene.pushMatrix();
             this.waterMaterial.apply();
-            
-            this.scene.translate(0, 0.02, 0);
-            this.scene.scale(this.width, 1, this.depth);
-            this.scene.rotate(-Math.PI/2, 1, 0, 0);
-            
-            this.plane.display();
+            super.display();
         this.scene.popMatrix();
     }
 }
