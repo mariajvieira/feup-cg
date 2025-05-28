@@ -2,11 +2,11 @@ import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFtexture } from "../lib/
 import { MyPlane } from "./MyPlane.js";
 import { MySphere } from "./MySphere.js";
 import { MyPanorama } from "./MyPanorama.js";
-import { MyWindow } from "./MyWindow.js";
 import { MyBuilding } from "./MyBuilding.js";
-import { MyTree } from "./MyTree.js";
 import { MyForest } from "./MyForest.js";
 import { MyHeli } from "./MyHeli.js";
+// import {MyFire} from "./MyFire.js";
+import { MyLake } from "./MyLake.js";
 
 /**
  * MyScene
@@ -35,9 +35,8 @@ export class MyScene extends CGFscene {
 
     // Objects
     this.axis = new CGFaxis(this, 20, 1);
-    // Aumentar a repetição da textura (100 vezes em cada direção)
     this.plane = new MyPlane(this, 64, 0, 100, 0, 100);
-    // this.sphere = new MySphere(this, 64, 32);
+    this.sphere = new MySphere(this, 64, 32);
     
     const windowCoords    = [0, 0, 1, 1];
      const windowTexture   = 'images/window.jpg';
@@ -56,10 +55,10 @@ export class MyScene extends CGFscene {
          depth,
          color
      );
-    // this.window = new MyWindow(this, [0, 0, 1, 1]);
-    // this.tree = new MyTree(this, 0, 'x', 0.7, 10, [0.2, 0.8, 0.2]);
     this.forest = new MyForest(this, 2, 3, 15, 15);
     this.heli = new MyHeli(this, 0, 'x', 0.7, 10, [0.2, 0.8, 0.2]);
+    this.lake = new MyLake(this, 20, 20);
+    // this.fire = new MyFire(this, 1, 1);
 
     this.planeAppearance = new CGFappearance(this);
     this.planeAppearance.setAmbient(0.3, 0.3, 0.3, 1);
@@ -69,17 +68,17 @@ export class MyScene extends CGFscene {
     
     // Textures
     this.texture1 = new CGFtexture(this, 'images/grass.jpg');
-    // this.texture2 = new CGFtexture(this, 'images/earth.jpg');
+    this.texture2 = new CGFtexture(this, 'images/earth.jpg');
     this.panoramaTexture = new CGFtexture(this, "images/panoramic.png");
     this.panorama = new MyPanorama(this, this.panoramaTexture);
     
     this.planeAppearance.setTexture(this.texture1);
     this.planeAppearance.setTextureWrap('REPEAT', 'REPEAT');
-    // this.sphereAppearance = new CGFappearance(this);
-    // this.sphereAppearance.setAmbient(1.0, 1.0, 1.0, 1.0); 
-    // this.sphereAppearance.setDiffuse(0.7, 0.7, 0.7, 1.0);
-    // this.sphereAppearance.setSpecular(0.0, 0.0, 0.0, 1.0);
-    // this.sphereAppearance.setShininess(10);
+    this.sphereAppearance = new CGFappearance(this);
+    this.sphereAppearance.setAmbient(1.0, 1.0, 1.0, 1.0); 
+    this.sphereAppearance.setDiffuse(0.7, 0.7, 0.7, 1.0);
+    this.sphereAppearance.setSpecular(0.0, 0.0, 0.0, 1.0);
+    this.sphereAppearance.setShininess(10);
 
     this.buildingAppearance = new CGFappearance(this);
     this.buildingAppearance.setAmbient(1.0, 1.0, 1.0, 1.0);
@@ -98,8 +97,8 @@ export class MyScene extends CGFscene {
     this.displayPlane = true;
     this.scaleFactor = 1;
 
-    this.selectedObject = 2;
-    this.objectIDs = { 'Plane': 0, 'Sphere': 1, 'Panorama': 2, 'Building': 3, 'Forest': 4, 'Heli': 5 };
+    this.selectedObject = 0;
+    this.objectIDs = { 'Panorama': 0, 'Sphere': 1 };
 
   }
   initLights() {
@@ -202,16 +201,68 @@ export class MyScene extends CGFscene {
 
     this.pushMatrix();
 
-    // if (this.selectedObject == 0) {
-    //     this.planeAppearance.setTexture(this.texture1);
-    //     this.planeAppearance.apply();
+    //if (this.selectedObject == 0) {
 
-    //     this.scale(400, 1, 400);
-    //     this.rotate(-Math.PI / 2, 1, 0, 0);
-    //     this.plane.display();
-    // }
+        this.gl.disable(this.gl.DEPTH_TEST);
+        this.gl.disable(this.gl.CULL_FACE);
 
-    // else if (this.selectedObject == 1) {
+        this.pushMatrix();
+            this.loadIdentity();
+            this.applyViewMatrix();
+            this.panorama.display();
+        this.popMatrix();
+
+        this.gl.enable(this.gl.CULL_FACE);
+        this.gl.enable(this.gl.DEPTH_TEST);
+
+        this.pushMatrix();
+          this.planeAppearance.setTexture(this.texture1);
+          this.planeAppearance.apply();
+          this.translate(0, -50, 0);
+          this.scale(5000, 1, 5000);
+          this.rotate(-Math.PI / 2, 1, 0, 0);
+          this.plane.display();
+        this.popMatrix();
+
+
+        this.pushMatrix();
+          this.buildingAppearance.apply();
+          this.translate(0, -50, -400); 
+          this.rotate(Math.PI, 0, 0, 0);
+          this.scale(20, 20, 20);
+          this.building.display();
+        this.popMatrix();
+ 
+        this.gl.disable(this.gl.CULL_FACE);
+
+        this.pushMatrix();
+          const roofY = -40 + this.building.floors * 20;
+          this.translate(20, roofY, -325);
+          this.rotate( Math.PI, 0, 0.2, 0 );
+          this.scale(5, 5, 5);
+          this.heli.display();
+        this.popMatrix();
+
+        this.popMatrix();
+        this.gl.enable(this.gl.CULL_FACE);
+
+        this.pushMatrix();
+          this.gl.disable(this.gl.CULL_FACE);
+          this.translate(270, -70, -400);
+          this.scale(15, 15, 15);
+          this.forest.display();
+          this.gl.enable(this.gl.CULL_FACE);
+        this.popMatrix();
+
+        this.pushMatrix();
+          this.translate(0, -50, 200); 
+          this.scale(10, 10, 10);
+          this.lake.display();
+        this.popMatrix();
+
+        this.pushMatrix();
+
+    // } else if (this.selectedObject == 1) {
     //     this.gl.disable(this.gl.CULL_FACE);
 
     //     this.sphereAppearance.setTexture(this.texture2);
@@ -222,106 +273,10 @@ export class MyScene extends CGFscene {
 
     //     this.gl.enable(this.gl.CULL_FACE);
     // }
-    // else if (this.selectedObject == 2) {
-        // Panorama (desabilita depth test e cull face)
-        this.gl.disable(this.gl.DEPTH_TEST);
-        this.gl.disable(this.gl.CULL_FACE);
-        
-        this.pushMatrix();
-            this.loadIdentity();
-            this.applyViewMatrix();
-            this.panorama.display();
-        this.popMatrix();
-        
-        this.gl.enable(this.gl.CULL_FACE);
-        this.gl.enable(this.gl.DEPTH_TEST);
-        
-        this.pushMatrix();
-        this.planeAppearance.setTexture(this.texture1);
-        this.planeAppearance.apply();
-        
-        this.translate(0, -50, 0);
-        
-        this.scale(5000, 1, 5000);
-        this.rotate(-Math.PI / 2, 1, 0, 0);
-        
-        this.plane.display();
-      this.popMatrix();
-
-
-              this.pushMatrix();
-              this.buildingAppearance.apply();
-              
-              this.translate(0, -50, -400); 
-              this.rotate(Math.PI, 0, 0, 0);
-              
-              this.scale(20, 20, 20);
-              
-              
-              this.building.display();
-              this.popMatrix();
- 
-              this.gl.disable(this.gl.CULL_FACE);
-              this.pushMatrix();
-                  const roofY = -40 + this.building.floors * 20;
-                  this.translate(20, roofY, -325);
-                  this.rotate( Math.PI, 0, 0.2, 0 );
-                  this.scale(5, 5, 5);
-                  this.heli.display();
-                  this.popMatrix();
-                  this.popMatrix();
-                  this.gl.enable(this.gl.CULL_FACE);
-
-
-                  this.pushMatrix();
-                  this.gl.disable(this.gl.CULL_FACE);
-                  this.translate(270, -70, -400);
-                  this.scale(15, 15, 15);
-                  this.forest.display();
-                  this.gl.enable(this.gl.CULL_FACE);
-                  this.popMatrix();
-                  this.pushMatrix();
-               
-         
-    // }
-    // else if (this.selectedObject == 3) {
-    //   this.pushMatrix();
-    //     this.planeAppearance.setTexture(this.texture1);
-    //     this.planeAppearance.apply();
-    //     this.scale(400, 1, 400);
-    //     this.rotate(-Math.PI / 2, 1, 0, 0);
-    //     this.plane.display();
-    // this.popMatrix();
-
-    // this.pushMatrix();
-    //   this.gl.disable(this.gl.CULL_FACE);
-    //   this.translate(0, 5, 0);
-    //   this.scale(10, 10, 10);
-    //   this.buildingAppearance.apply();
-    //   this.building.display();
-
-    //   this.gl.enable(this.gl.CULL_FACE);
-    //   this.popMatrix();
-      
-    // }
     
-    // else if (this.selectedObject == 4) {
-    //   this.pushMatrix();
-    //   this.gl.disable(this.gl.CULL_FACE);
-    //   this.translate(0, 5, 0);
-    //   this.scale(10, 10, 10);
-    //   this.forest.display();
-    //   this.gl.enable(this.gl.CULL_FACE);
-    //   this.popMatrix();
-    // } else if (this.selectedObject == 5) {
-    //   this.pushMatrix();
-    //     this.gl.disable(this.gl.CULL_FACE);
-    //     this.translate(0, 5, 0);
-    //     this.scale(10, 10, 10);
-    //     this.heli.display();
-    //     this.gl.enable(this.gl.CULL_FACE);
-    //   this.popMatrix();
-    // }
+
+
+
 
     this.popMatrix();
 
