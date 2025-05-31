@@ -55,7 +55,7 @@ export class MyScene extends CGFscene {
          depth,
          color
      );
-    this.forest = new MyForest(this, 2, 2, 5, 5);     
+    this.forest = new MyForest(this, 2, 2, 20, 20);     
     this.heli = new MyHeli(this, 0, 'x', 0.7, 10, [0.2, 0.8, 0.2]);
     this.lake = new MyLake(this, 20, 15, 32);    
     this.fire = new MyFire(this, 1, 1);
@@ -275,7 +275,7 @@ export class MyScene extends CGFscene {
     this.pushMatrix();
         this.gl.disable(this.gl.CULL_FACE);
 
-        this.translate(130, -50, -300);
+        this.translate(100, -50, -100);
         this.scale(5, 5, 5);
         this.forest.display();
 
@@ -295,18 +295,16 @@ export class MyScene extends CGFscene {
         this.gl.enable(this.gl.CULL_FACE);
     this.popMatrix();
 
-    // In MyScene.js, add this after the fire display loop
     if (this.heli.waterDropped) {
         this.pushMatrix();
             this.translate(this.heli.position.x, this.heli.position.y - 5, this.heli.position.z);
-            // Display water splash effect here
         this.popMatrix();
         this.heli.waterDropped = false;
     }
 
 
         this.pushMatrix();
-            this.translate(-50, -45, -100); 
+            this.translate(-50, -49, -100); 
             this.scale(3, 3, 3);
             this.gl.disable(this.gl.CULL_FACE);
             this.lake.display();
@@ -335,5 +333,22 @@ export class MyScene extends CGFscene {
     this.popMatrix();
 
     this.setDefaultAppearance();
+
+    if (this.heli.waterDropped) {
+        this.pushMatrix();
+            this.translate(this.heli.position.x, this.heli.position.y - 8, this.heli.position.z);
+            this.scale(2, 0.5, 2);
+            
+            this.setDefaultAppearance();
+            this.setAmbient(0.1, 0.4, 0.8, 0.7);
+            this.setDiffuse(0.2, 0.6, 0.9, 0.7);
+            this.gl.enable(this.gl.BLEND);
+            this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
+            
+            this.sphere.display();
+            
+            this.gl.disable(this.gl.BLEND);
+        this.popMatrix();
+    }
   }
 }
