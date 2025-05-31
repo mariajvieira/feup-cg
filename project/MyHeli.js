@@ -30,7 +30,7 @@ export class MyHeli extends CGFobject {
         this.lakePosition = { x: 20, y: -20, z: 20 }; 
         this.forestPosition = { x: 100, y: -50, z: -100 }; 
         this.forestScale = 5;
-        this.forestRadius = 25;
+        this.forestRadius = 200;
         this.bucketFilled = false;
         this.savedAltitude = 0;
         this.lakeRadius = 10;
@@ -221,6 +221,7 @@ export class MyHeli extends CGFobject {
                 this.waterDropped = false;
                 this.waterDropTimer = 0;
             }
+            console.log("Água despejada! Aguarde 2 segundos para o próximo despejo.");
         }
     }
     
@@ -274,14 +275,12 @@ export class MyHeli extends CGFobject {
     }
     
     isOverForest() {
-    const dx = this.position.x - this.forestPosition.x;
-    const dz = this.position.z - this.forestPosition.z;
-    const distance = Math.sqrt(dx*dx + dz*dz);
-    console.log(`OverForest? heli=(${this.position.x.toFixed(1)},${this.position.z.toFixed(1)}), ` +
-                `forest=(${this.forestPosition.x},${this.forestPosition.z}), dist=${distance.toFixed(1)}, ` +
-                `radius=${actualRadius}`);
-    return distance <= forestRadius;
-}
+        const dx = this.position.x - this.forestPosition.x;
+        const dz = this.position.z - this.forestPosition.z;
+        const distance = Math.sqrt(dx*dx + dz*dz);
+        return distance <= this.forestRadius;
+    }
+
     
     descendToLake() {
         if (this.isFlying && this.isOverLake() && this.bucketAttached && !this.bucketFilled) {
