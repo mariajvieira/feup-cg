@@ -168,14 +168,15 @@ export class MyHeli extends CGFobject {
         }
         
         if (this.isDescendingToLake) {
-            if (this.position.y > this.lakePosition.y - 15) {
+            const targetY = this.lakePosition.y + 0.5;
+            if (this.position.y > targetY) {
                 this.position.y -= this.verticalSpeed;
             } else {
-                this.position.y = this.lakePosition.y - 15;
+                this.position.y = targetY;
                 this.isDescendingToLake = false;
                 this.isWaitingAtLake = true;
                 this.bucketFilled = true; 
-                this.speed = 0; 
+                this.speed = 0;
                 console.log("Balde enchido! Pressione P para subir.");
             }
         }
