@@ -5,7 +5,7 @@ import { MyPanorama } from "./MyPanorama.js";
 import { MyBuilding } from "./MyBuilding.js";
 import { MyForest } from "./MyForest.js";
 import { MyHeli } from "./MyHeli.js";
-// import {MyFire} from "./MyFire.js";
+import {MyFire} from "./MyFire.js";
 import { MyLake } from "./MyLake.js";
 
 /**
@@ -55,10 +55,21 @@ export class MyScene extends CGFscene {
          depth,
          color
      );
-    this.forest = new MyForest(this, 2, 3, 15, 15);
+    this.forest = new MyForest(this, 8, 10, 20, 20);     
     this.heli = new MyHeli(this, 0, 'x', 0.7, 10, [0.2, 0.8, 0.2]);
     this.lake = new MyLake(this, 20, 15, 32);    
-    // this.fire = new MyFire(this, 1, 1);
+    this.fire = new MyFire(this, 3, 2);
+
+    this.fireInstances = [];
+    for (const tree of this.forest.trees) {
+      if (Math.random() < 0.7) {
+        const offsetX = (Math.random() - 0.5) * 3;
+        const offsetZ = (Math.random() - 0.5) * 3;
+        const scale   = 1.0 + Math.random() * 1.0;
+        this.fireInstances.push({ tree, offsetX, offsetZ, scale });
+      }
+    }
+
 
     this.planeAppearance = new CGFappearance(this);
     this.planeAppearance.setAmbient(0.3, 0.3, 0.3, 1);
@@ -172,6 +183,7 @@ export class MyScene extends CGFscene {
      this.checkKeys();
 
      this.heli.update(t);
+     //this.fire.update(t);
    }
 
   setDefaultAppearance() {
@@ -239,19 +251,39 @@ export class MyScene extends CGFscene {
         this.popMatrix();
         this.gl.enable(this.gl.CULL_FACE);
 
-        this.pushMatrix();
-          this.gl.disable(this.gl.CULL_FACE);
-          this.translate(130, -50, -300);
-          this.scale(5, 5, 5);
-          this.forest.display();
-          this.gl.enable(this.gl.CULL_FACE);
-        this.popMatrix();
+
+    this.pushMatrix();
+        this.gl.disable(this.gl.CULL_FACE);
+
+        this.translate(130, -50, -300);
+        this.scale(5, 5, 5);
+        this.forest.display();
+
+
+
+       for (const inst of this.fireInstances) {
+           this.pushMatrix();
+               this.translate(
+                   inst.tree.pos.x + inst.offsetX,
+                   0,
+                   inst.tree.pos.z + inst.offsetZ
+               );
+               this.scale(inst.scale, 1, inst.scale);
+               this.fire.display();
+           this.popMatrix();
+       }
+        this.gl.enable(this.gl.CULL_FACE);
+    this.popMatrix();
+
+
+
 
         this.pushMatrix();
             this.translate(-50, -45, -100); 
             this.scale(3, 3, 3);
             this.gl.disable(this.gl.CULL_FACE);
             this.lake.display();
+
             this.gl.enable(this.gl.CULL_FACE);
         this.popMatrix();
 
