@@ -68,11 +68,17 @@ export class MyHeli extends CGFobject {
         this.rotorMaterial.setSpecular(0.5, 0.5, 0.5, 1.0);
         this.rotorMaterial.setShininess(20);
         
-        this.bucketMaterial = new CGFappearance(this.scene);
-        this.bucketMaterial.setAmbient(0.1, 0.1, 0.1, 1.0);
-        this.bucketMaterial.setDiffuse(0.3, 0.6, 0.9, 1.0); 
-        this.bucketMaterial.setSpecular(0.3, 0.3, 0.3, 1.0);
-        this.bucketMaterial.setShininess(10);
+        this.bucketEmptyMaterial = new CGFappearance(this.scene);
+        this.bucketEmptyMaterial.setAmbient(0.8, 0.1, 0.1, 1.0);
+        this.bucketEmptyMaterial.setDiffuse(0.9, 0.2, 0.2, 1.0); 
+        this.bucketEmptyMaterial.setSpecular(0.3, 0.3, 0.3, 1.0);
+        this.bucketEmptyMaterial.setShininess(10);
+        
+        this.bucketFilledMaterial = new CGFappearance(this.scene);
+        this.bucketFilledMaterial.setAmbient(0.1, 0.4, 0.8, 1.0);
+        this.bucketFilledMaterial.setDiffuse(0.2, 0.6, 0.9, 1.0); 
+        this.bucketFilledMaterial.setSpecular(0.3, 0.3, 0.3, 1.0);
+        this.bucketFilledMaterial.setShininess(10);
         
         this.cabinTexture = new CGFtexture(this.scene, 'images/heli_body.jpg');
         this.cabinMaterial.setTexture(this.cabinTexture);
@@ -154,7 +160,7 @@ export class MyHeli extends CGFobject {
         }
         
         if (this.isFillingBucket) {
-            if (this.position.y > this.lakePosition.y + 2) {
+            if (this.position.y > this.lakePosition.y - 10) {
                 this.position.y -= this.verticalSpeed;
             } else {
                 setTimeout(() => {
@@ -404,7 +410,11 @@ export class MyHeli extends CGFobject {
     
                 this.scene.pushMatrix();
                     this.scene.scale(1, 2, 1); 
-                    this.bucketMaterial.apply();
+                    if (this.bucketFilled) {
+                        this.bucketFilledMaterial.apply();
+                    } else {
+                        this.bucketEmptyMaterial.apply();
+                    }
                     this.cylinder.display();
                 this.scene.popMatrix();
     
