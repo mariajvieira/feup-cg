@@ -137,57 +137,65 @@ export class MyScene extends CGFscene {
   }
 
   checkKeys() {
-     var text = "Keys pressed: ";
-     var keysPressed = false;
-  
-     if (this.gui.isKeyPressed("KeyW")) {
-        text += " W ";
-        keysPressed = true;
-        this.heli.accelerate(0.01); 
-    }
+    var text = "Keys pressed: ";
+    var keysPressed = false;
+ 
+    if (this.gui.isKeyPressed("KeyW")) {
+       text += " W ";
+       keysPressed = true;
+       this.heli.accelerate(0.01); 
+   }
 
-    if (this.gui.isKeyPressed("KeyS")) {
-        text += " S ";
+   if (this.gui.isKeyPressed("KeyS")) {
+       text += " S ";
+       keysPressed = true;
+       this.heli.accelerate(-0.01);
+   }
+  
+   if (this.gui.isKeyPressed("KeyA")) {
+       text += " A ";
+       keysPressed = true;
+       this.heli.turn(-0.05); 
+   }
+  
+   if (this.gui.isKeyPressed("KeyD")) {
+       text += " D ";
+       keysPressed = true;
+       this.heli.turn(0.05);
+   }
+   
+    if (this.gui.isKeyPressed("KeyR")) {
+        text += " R ";
         keysPressed = true;
-        this.heli.accelerate(-0.01);
+        this.heli.reset();
     }
    
-    if (this.gui.isKeyPressed("KeyA")) {
-        text += " A ";
+    if (this.gui.isKeyPressed("KeyP")) {
+        text += " P ";
         keysPressed = true;
-        this.heli.turn(-0.05); 
+        this.heli.takeOff();  
     }
    
-    if (this.gui.isKeyPressed("KeyD")) {
-        text += " D ";
+    if (this.gui.isKeyPressed("KeyL")) {
+        text += " L ";
         keysPressed = true;
-        this.heli.turn(0.05);
+        if (!this.heli.descendToLake()) {
+            if (this.heli.fillBucketAtLake()) {
+                console.log("Enchendo o balde no lago...");
+            } else {
+                 this.heli.land();        
+            }
+        }
     }
     
-     if (this.gui.isKeyPressed("KeyR")) {
-         text += " R ";
-         keysPressed = true;
-         this.heli.reset();
-     }
-    
-     if (this.gui.isKeyPressed("KeyP")) {
-         text += " P ";
-         keysPressed = true;
-         this.heli.takeOff();
-     }
-    
-     if (this.gui.isKeyPressed("KeyL")) {
-               text += " L ";
-         keysPressed = true;
-         if (this.heli.fillBucketAtLake()) {
-             console.log("Enchendo o balde no lago...");
-         } else {
-              this.heli.land();        
-             }  
-     }
-    
-     if (keysPressed)
-         console.log(text);
+    if (this.gui.isKeyPressed("KeyO")) {
+        text += " O ";
+        keysPressed = true;
+        this.heli.dropWater();
+    }
+   
+    if (keysPressed)
+        console.log(text);
    }
 
    update(t) {

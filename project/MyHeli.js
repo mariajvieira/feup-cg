@@ -34,6 +34,10 @@ export class MyHeli extends CGFobject {
         this.lakeRadius = 10;
         this.isReturningToAltitude = false;
         
+        this.isDescendingToLake = false;
+        this.isWaitingAtLake = false;
+        this.isAscendingFromLake = false;
+    
         this.verticalSpeed = 0.2;
         this.maxSpeed = 0.5;                   
         this.speedFactor = 1.0;                
@@ -88,7 +92,7 @@ export class MyHeli extends CGFobject {
         const baseMainRotorSpeed = 2.0;
         const baseTailRotorSpeed = 3.0;
         
-        if (this.isFlying || this.isTakingOff) {
+        if (this.isFlying || this.isTakingOff || this.isDescendingToLake || this.isAscendingFromLake) {
             this.mainRotorAngle += (baseMainRotorSpeed + Math.abs(this.speed)) * 0.1;
             this.tailRotorAngle += (baseTailRotorSpeed + Math.abs(this.speed)) * 0.2;
         } else {
@@ -159,6 +163,31 @@ export class MyHeli extends CGFobject {
             }
         }
         
+        if (this.isDescendingToLake) {
+            if (this.position.y > this.lakePosition.y + 1) {
+                this.position.y -= this.verticalSpeed;
+            } else {
+                this.position.y = this.lakePosition.y + 1;
+                this.isDescendingToLake = false;
+                this.isWaitingAtLake = true;
+                this.bucketFilled = true; 
+                this.speed = 0; 
+                console.log("Balde enchido! Pressione P para subir.");
+            }
+        }
+        
+        if (this.isAscendingFromLake) {
+            if (this.position.y < this.savedAltitude) {
+                this.position.y += this.verticalSpeed;
+            } else {
+                this.position.y = this.savedAltitude;
+                this.isAscendingFromLake = false;
+                this.isFlying = true;
+                this.speed = 0; 
+                console.log("Altitude de cruzeiro atingida. Use W/S/A/D para voar.");
+            }
+        }
+        
         if (this.isFillingBucket) {
             if (this.position.y > this.lakePosition.y - 10) {
                 this.position.y -= this.verticalSpeed;
@@ -199,11 +228,13 @@ export class MyHeli extends CGFobject {
     }
     
     takeOff() {
-        if (!this.isFlying && !this.isTakingOff) {
-            this.isTakingOff = true;
-        } else if (this.isFillingBucket) {
-            this.isFillingBucket = false;
-            this.isTakingOff = true;
+        if (!this.ascendFromLake()) {
+            if (!this.isFlying && !this.isTakingOff) {
+                this.isTakingOff = true;
+            } else if (this.isFillingBucket) {
+                this.isFillingBucket = false;
+                this.isTakingOff = true;
+            }
         }
     }
     
@@ -230,14 +261,72 @@ export class MyHeli extends CGFobject {
         return distance <= this.lakeRadius;
     }
     
-    fillBucketAtLake() {
-        if (this.isOverLake() && this.bucketAttached && !this.bucketFilled && this.isFlying) {
+    descendToLake() {
+        if (this.isFlying && this.isOverLake() && this.bucketAttached && !this.bucketFilled) {
+            console.log("Descendo ao lago para encher o balde...");
             this.savedAltitude = this.position.y; 
-            this.isFillingBucket = true;
+            this.isDescendingToLake = true;
             this.isFlying = false;
-            return true; 
+            this.speed = 0; 
+            return true;
+        } else {
+            if (!this.isOverLake()) {
+                console.log("Não está sobre o lago!");
+            } else if (!this.bucketAttached) {
+                console.log("Balde não está anexado!");
+            } else if (this.bucketFilled) {
+                console.log("Balde já está cheio!");
+            } else if (!this.isFlying) {
+                console.log("Helicóptero não está voando!");
+            }
+            return false;
         }
-        return false; 
+    }
+    
+    ascendFromLake() {
+        if (this.isWaitingAtLake) {
+            console.log("Subindo do lago com água...");
+            this.isWaitingAtLake = false;
+            this.isAscendingFromLake = true;
+            return true;
+        }
+        return false;
+    }
+    
+    isOverFire() {
+        const forestX = 130;
+        const forestZ = -300;
+        const forestRadius = 25; 
+        
+        const dx = this.position.x - forestX;
+        const dz = this.position.z - forestZ;
+        const distance = Math.sqrt(dx*dx + dz*dz);
+        
+        console.log(`Distância ao fogo: ${distance.toFixed(1)}, Raio: ${forestRadius}`);
+        return distance <= forestRadius;
+    }
+    
+    dropWater() {
+        if (this.isFlying && this.bucketFilled && this.isOverFire()) {
+            console.log("Largando água no fogo!");
+            this.bucketFilled = false;
+            
+            if (this.scene.fireInstances && this.scene.fireInstances.length > 0) {
+                this.scene.fireInstances.splice(0, 1);
+                console.log(`Fogo apagado! Restam ${this.scene.fireInstances.length} focos de incêndio.`);
+            }
+            
+            return true;
+        } else {
+            if (!this.bucketFilled) {
+                console.log("Balde está vazio!");
+            } else if (!this.isOverFire()) {
+                console.log("Não está sobre o fogo!");
+            } else if (!this.isFlying) {
+                console.log("Helicóptero não está voando!");
+            }
+            return false;
+        }
     }
     
     reset() {
@@ -253,6 +342,9 @@ export class MyHeli extends CGFobject {
         this.bucketFilled = false;
         this.savedAltitude = 0;
         this.isReturningToAltitude = false;
+        this.isDescendingToLake = false;
+        this.isWaitingAtLake = false;
+        this.isAscendingFromLake = false;
     }
     
     setSpeedFactor(val) {
