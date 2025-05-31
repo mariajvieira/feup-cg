@@ -27,10 +27,14 @@ export class MyHeli extends CGFobject {
         this.isFillingBucket = false;          
         this.cruiseAltitude = 15;              
         this.helipadPosition = { x: 0, y: 0, z: 0 }; 
-        this.lakePosition = { x: 20, y: 0, z: 20 }; 
+        this.lakePosition = { x: 20, y: -20, z: 20 }; 
+        this.forestPosition = { x: 100, y: -50, z: -100 }; 
+        this.forestScale = 5;
+        this.forestRadius = 25;
         this.bucketFilled = false;
         this.savedAltitude = 0;
         this.lakeRadius = 10;
+        this.fireRadius = 15;
         this.isReturningToAltitude = false;
         
         this.isDescendingToLake = false;
@@ -41,6 +45,9 @@ export class MyHeli extends CGFobject {
         this.maxSpeed = 0.5;                   
         this.speedFactor = 1.0;                
         
+        this.waterDropped = false;
+        this.waterDropTimer = 0;
+
         this.initComponents();
         this.initMaterials();
     }
@@ -207,6 +214,14 @@ export class MyHeli extends CGFobject {
                 this.isFlying = true;
             }
         }
+        
+        if (this.waterDropped) {
+            this.waterDropTimer += 50; 
+            if (this.waterDropTimer > 2000) { 
+                this.waterDropped = false;
+                this.waterDropTimer = 0;
+            }
+        }
     }
     
     accelerate(val) {
@@ -258,6 +273,16 @@ export class MyHeli extends CGFobject {
         return distance <= this.lakeRadius;
     }
     
+    isOverForest() {
+    const dx = this.position.x - this.forestPosition.x;
+    const dz = this.position.z - this.forestPosition.z;
+    const distance = Math.sqrt(dx*dx + dz*dz);
+    console.log(`OverForest? heli=(${this.position.x.toFixed(1)},${this.position.z.toFixed(1)}), ` +
+                `forest=(${this.forestPosition.x},${this.forestPosition.z}), dist=${distance.toFixed(1)}, ` +
+                `radius=${actualRadius}`);
+    return distance <= forestRadius;
+}
+    
     descendToLake() {
         if (this.isFlying && this.isOverLake() && this.bucketAttached && !this.bucketFilled) {
             console.log("Descendo ao lago para encher o balde...");
@@ -292,43 +317,54 @@ export class MyHeli extends CGFobject {
     
     isOverFire() {
         if (!this.scene.fireInstances || this.scene.fireInstances.length === 0) {
-            return false;
+            return { isOver: false, fireIndex: -1 };
         }
         
-        for (const fireInst of this.scene.fireInstances) {
-            const dx = this.position.x - (fireInst.tree.pos.x + fireInst.offsetX);
-            const dz = this.position.z - (fireInst.tree.pos.z + fireInst.offsetZ);
+        for (let i = 0; i < this.scene.fireInstances.length; i++) {
+            const fireInst = this.scene.fireInstances[i];
+            
+            const fireWorldX = (fireInst.tree.pos.x + fireInst.offsetX) * 5 + 130;
+            const fireWorldZ = (fireInst.tree.pos.z + fireInst.offsetZ) * 5 + (-300);
+            
+            const dx = this.position.x - fireWorldX;
+            const dz = this.position.z - fireWorldZ;
             const distance = Math.sqrt(dx*dx + dz*dz);
             
-            if (distance < 15) { 
-                return true;
+            console.log(`Fogo ${i}: posição (${fireWorldX.toFixed(1)}, ${fireWorldZ.toFixed(1)}), Heli: (${this.position.x.toFixed(1)}, ${this.position.z.toFixed(1)}), Distância: ${distance.toFixed(1)}`);
+            
+            if (distance < 20) { 
+                return { isOver: true, fireIndex: i };
             }
         }
         
-        return false;
+        return { isOver: false, fireIndex: -1 };
     }
     
     dropWater() {
-        if (this.isFlying && this.bucketFilled && this.isOverFire()) {
+        console.log(`Tentando despejar água - Voando: ${this.isFlying}, Balde cheio: ${this.bucketFilled}, Sobre floresta: ${this.isOverForest()}`);
+        
+        if (this.isFlying && this.bucketFilled && this.isOverForest()) {
+            console.log("Água despejada sobre a floresta!");
             this.bucketFilled = false;
+            this.waterDropped = true;
+            this.waterDropTimer = 0;
             
             if (this.scene.fireInstances && this.scene.fireInstances.length > 0) {
-                this.scene.fireInstances.pop(); 
-                
+                const extinguishedFires = this.scene.fireInstances.length;
+                this.scene.fireInstances = []; 
+                console.log(`${extinguishedFires} fogos extintos! Floresta salva!`);
                 return true;
-            } else {
-                return false;
             }
         } else {
             if (!this.bucketFilled) {
                 console.log("Balde está vazio!");
-            } else if (!this.isOverFire()) {
-                console.log("Não está sobre o fogo!");
+            } else if (!this.isOverForest()) {
+                console.log("Não está sobre a floresta!");
             } else if (!this.isFlying) {
                 console.log("Helicóptero não está voando!");
             }
-            return false;
         }
+        return false;
     }
     
     reset() {
