@@ -100,13 +100,12 @@ export class MyHeli extends CGFobject {
         this.tailRotorAngle %= Math.PI * 2;
         
         if (this.isFlying) {
-            const dirX = Math.sin(this.rotation);
-            const dirZ = Math.cos(this.rotation);
+            const dirX = Math.cos(this.rotation);
+            const dirZ = -Math.sin(this.rotation);
             
             this.position.x += dirX * this.speed * this.speedFactor;
-            this.position.z -= dirZ * this.speed * this.speedFactor;
-            
-            this.pitchAngle = -this.speed * 0.5;
+            this.position.z += dirZ * this.speed * this.speedFactor;
+            this.pitchAngle = this.speed * -0.5; 
         }
         
         if (this.isTakingOff) {
@@ -176,7 +175,7 @@ export class MyHeli extends CGFobject {
     
     turn(val) {
         this.rotation += val * this.speedFactor;
-                this.rotation %= Math.PI * 2;
+        this.rotation %= Math.PI * 2;
     }
     
     takeOff() {

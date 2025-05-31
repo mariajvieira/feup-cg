@@ -130,28 +130,28 @@ export class MyScene extends CGFscene {
      var keysPressed = false;
   
      if (this.gui.isKeyPressed("KeyW")) {
-         text += " W ";
-         keysPressed = true;
-         this.heli.accelerate(0.01);
-     }
-  
-     if (this.gui.isKeyPressed("KeyS")) {
-         text += " S ";
-         keysPressed = true;
-         this.heli.accelerate(-0.01);
-     }
-    
-     if (this.gui.isKeyPressed("KeyA")) {
-         text += " A ";
-         keysPressed = true;
-         this.heli.turn(-0.05);
-     }
-    
-     if (this.gui.isKeyPressed("KeyD")) {
-         text += " D ";
-         keysPressed = true;
-         this.heli.turn(0.05);
-     }
+        text += " W ";
+        keysPressed = true;
+        this.heli.accelerate(0.01); 
+    }
+
+    if (this.gui.isKeyPressed("KeyS")) {
+        text += " S ";
+        keysPressed = true;
+        this.heli.accelerate(-0.01);
+    }
+   
+    if (this.gui.isKeyPressed("KeyA")) {
+        text += " A ";
+        keysPressed = true;
+        this.heli.turn(-0.05); 
+    }
+   
+    if (this.gui.isKeyPressed("KeyD")) {
+        text += " D ";
+        keysPressed = true;
+        this.heli.turn(0.05);
+    }
     
      if (this.gui.isKeyPressed("KeyR")) {
          text += " R ";
@@ -237,11 +237,12 @@ export class MyScene extends CGFscene {
 
         this.pushMatrix();
           const roofY = -85 + this.building.floors * 20;
-          this.translate(15, roofY, -270);
-          this.rotate( Math.PI, 0, 0.2, 0 );
+          this.translate(15, roofY, -270); 
+          this.rotate(Math.PI, 0, 0.2, 0); 
           this.scale(2, 2, 2);
           this.heli.display();
         this.popMatrix();
+
 
         this.popMatrix();
         this.gl.enable(this.gl.CULL_FACE);
