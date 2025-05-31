@@ -18,7 +18,6 @@ export class MyPanorama extends CGFobject {
     
     display() {
         this.appearance.apply();
-        //this.scene.gl.disable(this.scene.gl.LIGHTING);
         this.scene.gl.disable(this.scene.gl.CULL_FACE);
         
         this.scene.pushMatrix();
@@ -32,6 +31,5 @@ export class MyPanorama extends CGFobject {
         this.scene.popMatrix();
         
         this.scene.gl.enable(this.scene.gl.CULL_FACE);
-        //this.scene.gl.enable(this.scene.gl.LIGHTING);
     }
 }

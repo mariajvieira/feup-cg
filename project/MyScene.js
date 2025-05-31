@@ -193,12 +193,23 @@ export class MyScene extends CGFscene {
         console.log(text);
    }
 
-   update(t) {
-     this.checkKeys();
 
-     this.heli.update(t);
-     this.fire.update(t);
-   }
+  update(t) {
+      this.checkKeys();
+      this.heli.update(t);
+      this.fire.update(t);
+      this.building.update(t);
+      
+      if (this.heli.isTakingOff && this.building.heliManeuverState !== 'takeoff') {
+          this.building.setHelipadTakeoff();
+      } 
+      else if (this.heli.isLanding && this.building.heliManeuverState !== 'landing') {
+          this.building.setHelipadLanding();
+      }
+      else if (!this.heli.isTakingOff && !this.heli.isLanding && this.building.heliManeuverState !== 'none') {
+          this.building.setHelipadNormal();
+      }
+  }
 
   setDefaultAppearance() {
     this.setAmbient(0.5, 0.5, 0.5, 1.0);

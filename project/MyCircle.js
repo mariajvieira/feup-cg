@@ -17,14 +17,12 @@ export class MyCircle extends CGFobject {
         this.normals = [];
         this.texCoords = [];
 
-        // Centro do círculo
         this.vertices.push(0, 0, 0);
         this.normals.push(0, 0, 1);
         this.texCoords.push(0.5, 0.5);
 
         const alphaInc = 2 * Math.PI / this.slices;
         
-        // Vértices externos do círculo
         for (let i = 0; i <= this.slices; i++) {
             const alpha = i * alphaInc;
             const x = Math.cos(alpha);
@@ -33,13 +31,11 @@ export class MyCircle extends CGFobject {
             this.vertices.push(x, y, 0);
             this.normals.push(0, 0, 1);
             
-            // Coordenadas de textura mapeadas de [-1,1] para [0,1]
             const s = (x + 1) / 2;
-            const t = (y + 1) / 2;
+            const t = 1 - (y + 1) / 2;  
             this.texCoords.push(s, t);
         }
 
-        // Triângulos (como um leque)
         for (let i = 0; i < this.slices; i++) {
             this.indices.push(0, i + 1, i + 2);
         }
