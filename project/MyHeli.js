@@ -29,9 +29,12 @@ export class MyHeli extends CGFobject {
         this.cruiseAltitude = 15;              
         this.helipadPosition = { x: 0, y: 0, z: 0 }; 
         this.lakePosition = { x: 20, y: 0, z: 20 }; 
-        this.bucketFilled = false;            
+        this.bucketFilled = false;
+        this.savedAltitude = 0;
+        this.lakeRadius = 10;
+        this.isReturningToAltitude = false; // Adicionar esta linha
         
-        this.verticalSpeed = 0.2;              
+        this.verticalSpeed = 0.2;
         this.maxSpeed = 0.5;                   
         this.speedFactor = 1.0;                
         
@@ -157,8 +160,21 @@ export class MyHeli extends CGFobject {
                 setTimeout(() => {
                     this.bucketFilled = true;
                     this.isFillingBucket = false;
-                    this.isTakingOff = true;
+                    // Voltar à altitude guardada em vez de fazer takeoff normal
+                    this.targetAltitude = this.savedAltitude;
+                    this.isReturningToAltitude = true;
                 }, 2000);
+            }
+        }
+        
+        // Novo estado para voltar à altitude original
+        if (this.isReturningToAltitude) {
+            if (this.position.y < this.targetAltitude) {
+                this.position.y += this.verticalSpeed;
+            } else {
+                this.position.y = this.targetAltitude;
+                this.isReturningToAltitude = false;
+                this.isFlying = true;
             }
         }
     }
@@ -203,6 +219,25 @@ export class MyHeli extends CGFobject {
         }
     }
     
+    // Novo método para verificar se está por cima do lago
+    isOverLake() {
+        const dx = this.position.x - this.lakePosition.x;
+        const dz = this.position.z - this.position.z;
+        const distance = Math.sqrt(dx*dx + dz*dz);
+        return distance <= this.lakeRadius;
+    }
+    
+    // Novo método para ativar o enchimento do balde com a tecla L
+    fillBucketAtLake() {
+        if (this.isOverLake() && this.bucketAttached && !this.bucketFilled && this.isFlying) {
+            this.savedAltitude = this.position.y; // Guardar altitude atual
+            this.isFillingBucket = true;
+            this.isFlying = false;
+            return true; // Sucesso
+        }
+        return false; // Não pode encher o balde
+    }
+    
     reset() {
         this.position = { ...this.helipadPosition };
         this.rotation = 0;
@@ -214,6 +249,8 @@ export class MyHeli extends CGFobject {
         this.isFillingBucket = false;
         this.bucketAttached = false;
         this.bucketFilled = false;
+        this.savedAltitude = 0;
+        this.isReturningToAltitude = false;
     }
     
     setSpeedFactor(val) {
@@ -356,29 +393,37 @@ export class MyHeli extends CGFobject {
         if (!this.bucketAttached) return;
     
         this.scene.pushMatrix();
+            // Desenhar a "corda" que liga o balde ao helicóptero
             this.scene.pushMatrix();
                 this.scene.translate(0, -this.bodyHeight, 0);
                 this.scene.rotate(Math.PI / 2, 1, 0, 0);
-                this.scene.scale(0.05, 0.05, 2*this.bucketLength);
+                this.scene.scale(0.1, 0.1, 2*this.bucketLength);
                 this.rotorMaterial.apply();
                 this.cylinder.display();
             this.scene.popMatrix();
     
+            // Desenhar o balde (cilindro)
             this.scene.pushMatrix();
                 this.scene.translate(0, -this.bodyHeight - 3*this.bucketLength, 0);
+                
+                // Desabilitar culling para ver faces interiores e exteriores
+                this.scene.gl.disable(this.scene.gl.CULL_FACE);
     
                 this.scene.pushMatrix();
-                    this.scene.scale(1,2, 1); 
+                    this.scene.scale(1, 2, 1); 
                     this.bucketMaterial.apply();
                     this.cylinder.display();
                 this.scene.popMatrix();
     
-                this.scene.pushMatrix();
+                /*this.scene.pushMatrix();
                     this.scene.translate(0, 0, -0.8); 
                     this.scene.scale(0.5, 0.5, 1);
                     this.bucketMaterial.apply();
                     this.circle.display();
-                this.scene.popMatrix();
+                this.scene.popMatrix();*/
+                
+                // Reabilitar culling
+                this.scene.gl.enable(this.scene.gl.CULL_FACE);
     
             this.scene.popMatrix();
         this.scene.popMatrix();
