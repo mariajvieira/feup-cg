@@ -48,10 +48,10 @@ export class MyHeli extends CGFobject {
     
     initMaterials() {
         this.cabinMaterial = new CGFappearance(this.scene);
-        this.cabinMaterial.setAmbient(0.2, 0.2, 0.2, 1.0);
-        this.cabinMaterial.setDiffuse(0.9, 0.1, 0.1, 1.0); 
-        this.cabinMaterial.setSpecular(0.8, 0.8, 0.8, 1.0);
-        this.cabinMaterial.setShininess(30);
+        this.cabinMaterial.setAmbient(0.6, 0.1, 0.1, 1.0); 
+        this.cabinMaterial.setDiffuse(0.9, 0.2, 0.2, 1.0); 
+        this.cabinMaterial.setSpecular(0.3, 0.3, 0.3, 1.0); 
+        this.cabinMaterial.setShininess(10);
         
         this.glassMaterial = new CGFappearance(this.scene);
         this.glassMaterial.setAmbient(0.1, 0.1, 0.2, 0.8);
@@ -100,13 +100,12 @@ export class MyHeli extends CGFobject {
         this.tailRotorAngle %= Math.PI * 2;
         
         if (this.isFlying) {
-            const dirX = Math.sin(this.rotation);
-            const dirZ = Math.cos(this.rotation);
+            const dirX = Math.cos(this.rotation);
+            const dirZ = -Math.sin(this.rotation);
             
             this.position.x += dirX * this.speed * this.speedFactor;
-            this.position.z -= dirZ * this.speed * this.speedFactor;
-            
-            this.pitchAngle = -this.speed * 0.5;
+            this.position.z += dirZ * this.speed * this.speedFactor;
+            this.pitchAngle = this.speed * -0.5; 
         }
         
         if (this.isTakingOff) {
@@ -176,7 +175,7 @@ export class MyHeli extends CGFobject {
     
     turn(val) {
         this.rotation += val * this.speedFactor;
-                this.rotation %= Math.PI * 2;
+        this.rotation %= Math.PI * 2;
     }
     
     takeOff() {
@@ -273,6 +272,7 @@ export class MyHeli extends CGFobject {
                 this.cylinder.display();
             this.scene.popMatrix();
             
+            this.scene.gl.disable(this.scene.gl.CULL_FACE);
             this.scene.pushMatrix();
                 this.scene.translate(0, this.bodyHeight/2 + 0.4, 0);
                 this.scene.rotate(this.mainRotorAngle, 0, 1, 0); 
@@ -281,12 +281,13 @@ export class MyHeli extends CGFobject {
                     this.scene.pushMatrix();
                         this.scene.rotate(i * Math.PI/2, 0, 1, 0);
                         this.scene.translate(bladeLength/2, 0, 0);
-                        this.scene.scale(bladeLength, 0.05, bladeWidth);
+                        this.scene.scale(bladeLength, 0.1, bladeWidth); 
                         this.rotorMaterial.apply();
                         this.cylinder.display();
                     this.scene.popMatrix();
                 }
             this.scene.popMatrix();
+            this.scene.gl.enable(this.scene.gl.CULL_FACE);
         this.scene.popMatrix();
     }
     
@@ -303,6 +304,7 @@ export class MyHeli extends CGFobject {
                 this.cylinder.display();
             this.scene.popMatrix();
             
+            this.scene.gl.disable(this.scene.gl.CULL_FACE);
             this.scene.pushMatrix();
                 this.scene.translate(0, 0, 0.15);
                 this.scene.rotate(this.tailRotorAngle, 0, 0, 1); 
@@ -311,12 +313,13 @@ export class MyHeli extends CGFobject {
                     this.scene.pushMatrix();
                         this.scene.rotate(i * Math.PI * 2/3, 0, 0, 1);
                         this.scene.translate(0, bladeLength/2, 0);
-                        this.scene.scale(0.1, bladeLength, 0.02);
+                        this.scene.scale(0.15, bladeLength, 0.05); 
                         this.rotorMaterial.apply();
                         this.cylinder.display();
                     this.scene.popMatrix();
                 }
             this.scene.popMatrix();
+            this.scene.gl.enable(this.scene.gl.CULL_FACE);
         this.scene.popMatrix();
     }
     
