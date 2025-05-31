@@ -197,7 +197,7 @@ export class MyScene extends CGFscene {
      this.checkKeys();
 
      this.heli.update(t);
-     //this.fire.update(t);
+     this.fire.update(t);
    }
 
   setDefaultAppearance() {
