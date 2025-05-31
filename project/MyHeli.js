@@ -7,7 +7,6 @@ import { MyCircle } from './MyCircle.js';
 export class MyHeli extends CGFobject {
     constructor(scene) {
         super(scene);
-
         this.position = { x: 0, y: 0, z: 0 };  
         this.rotation = 0;                    
         this.speed = 0;                        
@@ -84,8 +83,6 @@ export class MyHeli extends CGFobject {
         this.bucketFilledMaterial.setSpecular(0.3, 0.3, 0.3, 1.0);
         this.bucketFilledMaterial.setShininess(10);
         
-        this.cabinTexture = new CGFtexture(this.scene, 'images/heli_body.jpg');
-        this.cabinMaterial.setTexture(this.cabinTexture);
     }
 
     update(t) {
@@ -294,29 +291,34 @@ export class MyHeli extends CGFobject {
     }
     
     isOverFire() {
-        const forestX = 130;
-        const forestZ = -300;
-        const forestRadius = 25; 
+        if (!this.scene.fireInstances || this.scene.fireInstances.length === 0) {
+            return false;
+        }
         
-        const dx = this.position.x - forestX;
-        const dz = this.position.z - forestZ;
-        const distance = Math.sqrt(dx*dx + dz*dz);
+        for (const fireInst of this.scene.fireInstances) {
+            const dx = this.position.x - (fireInst.tree.pos.x + fireInst.offsetX);
+            const dz = this.position.z - (fireInst.tree.pos.z + fireInst.offsetZ);
+            const distance = Math.sqrt(dx*dx + dz*dz);
+            
+            if (distance < 15) { 
+                return true;
+            }
+        }
         
-        console.log(`Distância ao fogo: ${distance.toFixed(1)}, Raio: ${forestRadius}`);
-        return distance <= forestRadius;
+        return false;
     }
     
     dropWater() {
         if (this.isFlying && this.bucketFilled && this.isOverFire()) {
-            console.log("Largando água no fogo!");
             this.bucketFilled = false;
             
             if (this.scene.fireInstances && this.scene.fireInstances.length > 0) {
-                this.scene.fireInstances.splice(0, 1);
-                console.log(`Fogo apagado! Restam ${this.scene.fireInstances.length} focos de incêndio.`);
+                this.scene.fireInstances.pop(); 
+                
+                return true;
+            } else {
+                return false;
             }
-            
-            return true;
         } else {
             if (!this.bucketFilled) {
                 console.log("Balde está vazio!");

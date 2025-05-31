@@ -18,12 +18,11 @@ export class MyPanorama extends CGFobject {
     
     display() {
         this.appearance.apply();
-        this.scene.gl.disable(this.scene.gl.LIGHTING);
+        //this.scene.gl.disable(this.scene.gl.LIGHTING);
         this.scene.gl.disable(this.scene.gl.CULL_FACE);
         
         this.scene.pushMatrix();
             let camPos = this.scene.camera.position;
-            // Posicionar o panorama mais abaixo para esconder as casas
             this.scene.translate(camPos[0], camPos[1], camPos[2]);
             
             this.scene.scale(200, 200, 200);
@@ -33,6 +32,6 @@ export class MyPanorama extends CGFobject {
         this.scene.popMatrix();
         
         this.scene.gl.enable(this.scene.gl.CULL_FACE);
-        this.scene.gl.enable(this.scene.gl.LIGHTING);
+        //this.scene.gl.enable(this.scene.gl.LIGHTING);
     }
 }
