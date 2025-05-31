@@ -179,13 +179,8 @@ export class MyScene extends CGFscene {
     if (this.gui.isKeyPressed("KeyL")) {
         text += " L ";
         keysPressed = true;
-        if (!this.heli.descendToLake()) {
-            if (this.heli.fillBucketAtLake()) {
-                console.log("Enchendo o balde no lago...");
-            } else {
-                 this.heli.land();        
-            }
-        }
+        if (!this.heli.descendToLake()) 
+                 this.heli.land();         
     }
     
     if (this.gui.isKeyPressed("KeyO")) {
@@ -295,11 +290,9 @@ export class MyScene extends CGFscene {
         this.gl.enable(this.gl.CULL_FACE);
     this.popMatrix();
 
-    // In MyScene.js, add this after the fire display loop
     if (this.heli.waterDropped) {
         this.pushMatrix();
             this.translate(this.heli.position.x, this.heli.position.y - 5, this.heli.position.z);
-            // Display water splash effect here
         this.popMatrix();
         this.heli.waterDropped = false;
     }

@@ -161,10 +161,10 @@ export class MyHeli extends CGFobject {
         }
         
         if (this.isDescendingToLake) {
-            if (this.position.y > this.lakePosition.y + 1) {
+            if (this.position.y > this.lakePosition.y - 15) {
                 this.position.y -= this.verticalSpeed;
             } else {
-                this.position.y = this.lakePosition.y + 1;
+                this.position.y = this.lakePosition.y - 15;
                 this.isDescendingToLake = false;
                 this.isWaitingAtLake = true;
                 this.bucketFilled = true; 
@@ -186,7 +186,7 @@ export class MyHeli extends CGFobject {
         }
         
         if (this.isFillingBucket) {
-            if (this.position.y > this.lakePosition.y - 10) {
+            if (this.position.y > this.lakePosition.y) {
                 this.position.y -= this.verticalSpeed;
             } else {
                 setTimeout(() => {
