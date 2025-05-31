@@ -179,7 +179,6 @@ export class MyScene extends CGFscene {
      if (this.gui.isKeyPressed("KeyL")) {
                text += " L ";
          keysPressed = true;
-         // Tentar encher o balde no lago
          if (this.heli.fillBucketAtLake()) {
              console.log("Enchendo o balde no lago...");
          } else {

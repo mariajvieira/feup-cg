@@ -32,7 +32,7 @@ export class MyHeli extends CGFobject {
         this.bucketFilled = false;
         this.savedAltitude = 0;
         this.lakeRadius = 10;
-        this.isReturningToAltitude = false; // Adicionar esta linha
+        this.isReturningToAltitude = false;
         
         this.verticalSpeed = 0.2;
         this.maxSpeed = 0.5;                   
@@ -160,14 +160,12 @@ export class MyHeli extends CGFobject {
                 setTimeout(() => {
                     this.bucketFilled = true;
                     this.isFillingBucket = false;
-                    // Voltar à altitude guardada em vez de fazer takeoff normal
                     this.targetAltitude = this.savedAltitude;
                     this.isReturningToAltitude = true;
                 }, 2000);
             }
         }
         
-        // Novo estado para voltar à altitude original
         if (this.isReturningToAltitude) {
             if (this.position.y < this.targetAltitude) {
                 this.position.y += this.verticalSpeed;
@@ -219,7 +217,6 @@ export class MyHeli extends CGFobject {
         }
     }
     
-    // Novo método para verificar se está por cima do lago
     isOverLake() {
         const dx = this.position.x - this.lakePosition.x;
         const dz = this.position.z - this.position.z;
@@ -227,15 +224,14 @@ export class MyHeli extends CGFobject {
         return distance <= this.lakeRadius;
     }
     
-    // Novo método para ativar o enchimento do balde com a tecla L
     fillBucketAtLake() {
         if (this.isOverLake() && this.bucketAttached && !this.bucketFilled && this.isFlying) {
-            this.savedAltitude = this.position.y; // Guardar altitude atual
+            this.savedAltitude = this.position.y; 
             this.isFillingBucket = true;
             this.isFlying = false;
-            return true; // Sucesso
+            return true; 
         }
-        return false; // Não pode encher o balde
+        return false; 
     }
     
     reset() {
@@ -393,7 +389,6 @@ export class MyHeli extends CGFobject {
         if (!this.bucketAttached) return;
     
         this.scene.pushMatrix();
-            // Desenhar a "corda" que liga o balde ao helicóptero
             this.scene.pushMatrix();
                 this.scene.translate(0, -this.bodyHeight, 0);
                 this.scene.rotate(Math.PI / 2, 1, 0, 0);
@@ -402,11 +397,9 @@ export class MyHeli extends CGFobject {
                 this.cylinder.display();
             this.scene.popMatrix();
     
-            // Desenhar o balde (cilindro)
             this.scene.pushMatrix();
                 this.scene.translate(0, -this.bodyHeight - 3*this.bucketLength, 0);
                 
-                // Desabilitar culling para ver faces interiores e exteriores
                 this.scene.gl.disable(this.scene.gl.CULL_FACE);
     
                 this.scene.pushMatrix();
@@ -422,7 +415,6 @@ export class MyHeli extends CGFobject {
                     this.circle.display();
                 this.scene.popMatrix();*/
                 
-                // Reabilitar culling
                 this.scene.gl.enable(this.scene.gl.CULL_FACE);
     
             this.scene.popMatrix();
