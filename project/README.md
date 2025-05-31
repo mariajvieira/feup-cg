@@ -41,3 +41,8 @@
 ![Helicopter](screenshots/project-t12g10-6.png)
 
 ![Helicopter](screenshots/project-t12g10-6.1.png)
+
+#### 7. Flame ripple
+
+![Helicopter](screenshots/project-t12g10-7.png)
+
