@@ -55,10 +55,10 @@ export class MyScene extends CGFscene {
          depth,
          color
      );
-    this.forest = new MyForest(this, 2, 2, 20, 20);     
+    this.forest = new MyForest(this,  5, 5, 10, 10);     
     this.heli = new MyHeli(this, 0, 'x', 0.7, 10, [0.2, 0.8, 0.2]);
     this.lake = new MyLake(this, 20, 15, 32);    
-    this.fire = new MyFire(this, 1, 1);
+    this.fire = new MyFire(this, 3, 2);
 
     this.fireInstances = [];
     for (const tree of this.forest.trees) {

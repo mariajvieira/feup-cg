@@ -35,3 +35,9 @@
 #### 5. Helicopter flying
 
 ![Helicopter](screenshots/project-t12g10-5.png)
+
+#### 6. Water and fire
+
+![Helicopter](screenshots/project-t12g10-6.png)
+
+![Helicopter](screenshots/project-t12g10-6.1.png)
