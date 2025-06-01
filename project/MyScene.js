@@ -220,7 +220,6 @@ export class MyScene extends CGFscene {
 
     this.pushMatrix();
 
-    //if (this.selectedObject == 0) {
 
         this.gl.disable(this.gl.DEPTH_TEST);
         this.gl.disable(this.gl.CULL_FACE);
@@ -290,13 +289,6 @@ export class MyScene extends CGFscene {
         this.gl.enable(this.gl.CULL_FACE);
     this.popMatrix();
 
-    if (this.heli.waterDropped) {
-        this.pushMatrix();
-            this.translate(this.heli.position.x, this.heli.position.y - 5, this.heli.position.z);
-        this.popMatrix();
-        this.heli.waterDropped = false;
-    }
-
 
         this.pushMatrix();
             this.translate(-50, -49, -100); 
@@ -308,18 +300,6 @@ export class MyScene extends CGFscene {
         this.popMatrix();
 
         this.pushMatrix();
-
-    // } else if (this.selectedObject == 1) {
-    //     this.gl.disable(this.gl.CULL_FACE);
-
-    //     this.sphereAppearance.setTexture(this.texture2);
-    //     this.sphereAppearance.apply();
-
-    //     this.scale(50, 50, 50);
-    //     this.sphere.display();
-
-    //     this.gl.enable(this.gl.CULL_FACE);
-    // }
     
 
 
@@ -329,21 +309,5 @@ export class MyScene extends CGFscene {
 
     this.setDefaultAppearance();
 
-    if (this.heli.waterDropped) {
-        this.pushMatrix();
-            this.translate(this.heli.position.x, this.heli.position.y - 8, this.heli.position.z);
-            this.scale(2, 0.5, 2);
-            
-            this.setDefaultAppearance();
-            this.setAmbient(0.1, 0.4, 0.8, 0.7);
-            this.setDiffuse(0.2, 0.6, 0.9, 0.7);
-            this.gl.enable(this.gl.BLEND);
-            this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
-            
-            this.sphere.display();
-            
-            this.gl.disable(this.gl.BLEND);
-        this.popMatrix();
-    }
   }
 }
