@@ -2,9 +2,11 @@
 
 ## Group T12G10
 
-## Project Notes
+#### Duarte Marques 202204973
+#### Maria João Vieira 202204802
 
-### Main observations/remarks 
+
+## Project Notes
 
 
 #### 1. Sky-Sphere
