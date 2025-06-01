@@ -314,7 +314,7 @@ export class MyScene extends CGFscene {
         this.gl.enable(this.gl.CULL_FACE);
     this.popMatrix();
 
-
+        // Render lake
         this.pushMatrix();
             this.translate(-50, -49, -100); 
             this.scale(3, 3, 3);
@@ -326,9 +326,6 @@ export class MyScene extends CGFscene {
 
         this.pushMatrix();
     
-
-
-
 
     this.popMatrix();
 

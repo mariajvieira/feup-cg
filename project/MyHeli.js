@@ -629,7 +629,7 @@ export class MyHeli extends CGFobject {
                 if (this.scene.fireInstances && this.scene.fireInstances.length > 0) {
                     const extinguishedFires = this.scene.fireInstances.length;
                     this.scene.fireInstances = []; 
-+                   console.log(`${extinguishedFires} fires extinguished! Forest saved!`);
+                   console.log(`${extinguishedFires} fires extinguished! Forest saved!`);
                     this.fireExtinguished = true;
                 }
             }
@@ -763,7 +763,7 @@ export class MyHeli extends CGFobject {
            console.log(`Attempting to drop water - Flying: ${this.isFlying}, Bucket full: ${this.bucketFilled}, Over forest: ${this.isOverForest()}`);
         
         if (this.isFlying && this.bucketFilled && this.isOverForest()) {
-+           console.log("Water dropped over forest!");
+           console.log("Water dropped over forest!");
             this.bucketFilled = false;
             this.waterDropped = true;
             this.waterDropTimer = 0;
